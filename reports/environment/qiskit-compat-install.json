@@ -1,0 +1,394 @@
+{
+  "version": "1",
+  "pip_version": "25.0.1",
+  "install": [
+    {
+      "download_info": {
+        "url": "https://files.pythonhosted.org/packages/dc/3d/d7ef971bc2afb22c40bf4f6502f424692aaaeb9e79fcc97ee2b51e8ae7e3/qiskit-1.4.6-cp39-abi3-manylinux2014_x86_64.manylinux_2_17_x86_64.whl",
+        "archive_info": {
+          "hash": "sha256=4b7564cba22879a5b03c42d957315561289d9b8ec8f35358d3a0e7289c5e63e4",
+          "hashes": {
+            "sha256": "4b7564cba22879a5b03c42d957315561289d9b8ec8f35358d3a0e7289c5e63e4"
+          }
+        }
+      },
+      "is_direct": false,
+      "is_yanked": false,
+      "requested": true,
+      "metadata": {
+        "metadata_version": "2.4",
+        "name": "qiskit",
+        "version": "1.4.6",
+        "dynamic": [
+          "license-file"
+        ],
+        "summary": "An open-source SDK for working with quantum computers at the level of extended quantum circuits, operators, and primitives.",
+        "description": "# Qiskit\n\n[![License](https://img.shields.io/github/license/Qiskit/qiskit.svg?)](https://opensource.org/licenses/Apache-2.0) <!--- long-description-skip-begin -->\n[![Current Release](https://img.shields.io/github/release/Qiskit/qiskit.svg?logo=Qiskit)](https://github.com/Qiskit/qiskit/releases)\n<!-- [![Extended Support Release](https://img.shields.io/github/v/release/Qiskit/qiskit?sort=semver&filter=0.*&logo=Qiskit&label=extended%20support)](https://github.com/Qiskit/qiskit/releases?q=tag%3A0) -->\n[![Downloads](https://img.shields.io/pypi/dm/qiskit.svg)](https://pypi.org/project/qiskit/)\n[![Coverage Status](https://coveralls.io/repos/github/Qiskit/qiskit/badge.svg?branch=main)](https://coveralls.io/github/Qiskit/qiskit?branch=main)\n![PyPI - Python Version](https://img.shields.io/pypi/pyversions/qiskit)\n[![Minimum rustc 1.70](https://img.shields.io/badge/rustc-1.70+-blue.svg)](https://rust-lang.github.io/rfcs/2495-min-rust-version.html)\n[![Downloads](https://static.pepy.tech/badge/qiskit)](https://pepy.tech/project/qiskit)<!--- long-description-skip-end -->\n[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.2583252.svg)](https://doi.org/10.5281/zenodo.2583252)\n\n**Qiskit**  is an open-source SDK for working with quantum computers at the level of extended quantum circuits, operators, and primitives.\n\nThis library is the core component of Qiskit, which contains the building blocks for creating and working with quantum circuits, quantum operators, and primitive functions (Sampler and Estimator).\nIt also contains a transpiler that supports optimizing quantum circuits, and a quantum information toolbox for creating advanced operators.\n\nFor more details on how to use Qiskit, refer to the documentation located here:\n\n<https://quantum.cloud.ibm.com/docs/>\n\n\n## Installation\n\nWe encourage installing Qiskit via ``pip``:\n\n```bash\npip install qiskit\n```\n\nPip will handle all dependencies automatically and you will always install the latest (and well-tested) version.\n\nTo install from source, follow the instructions in the [documentation](https://quantum.cloud.ibm.com/docs/guides/install-qiskit-source).\n\n## Create your first quantum program in Qiskit\n\nNow that Qiskit is installed, it's time to begin working with Qiskit. The essential parts of a quantum program are:\n1. Define and build a quantum circuit that represents the quantum state\n2. Define the classical output by measurements or a set of observable operators\n3. Depending on the output, use the Sampler primitive to sample outcomes or the Estimator primitive to estimate expectation values.\n\nCreate an example quantum circuit using the `QuantumCircuit` class:\n\n```python\nimport numpy as np\nfrom qiskit import QuantumCircuit\n\n# 1. A quantum circuit for preparing the quantum state |000> + i |111> / √2\nqc = QuantumCircuit(3)\nqc.h(0)             # generate superposition\nqc.p(np.pi / 2, 0)  # add quantum phase\nqc.cx(0, 1)         # 0th-qubit-Controlled-NOT gate on 1st qubit\nqc.cx(0, 2)         # 0th-qubit-Controlled-NOT gate on 2nd qubit\n```\n\nThis simple example creates an entangled state known as a [GHZ state](https://en.wikipedia.org/wiki/Greenberger%E2%80%93Horne%E2%80%93Zeilinger_state) $(|000\\rangle + i|111\\rangle)/\\sqrt{2}$. It uses the standard quantum gates: Hadamard gate (`h`), Phase gate (`p`), and CNOT gate (`cx`). \n\nOnce you've made your first quantum circuit, choose which primitive you will use. Starting with the Sampler,\nwe use `measure_all(inplace=False)` to get a copy of the circuit in which all the qubits are measured:\n\n```python\n# 2. Add the classical output in the form of measurement of all qubits\nqc_measured = qc.measure_all(inplace=False)\n\n# 3. Execute using the Sampler primitive\nfrom qiskit.primitives import StatevectorSampler\nsampler = StatevectorSampler()\njob = sampler.run([qc_measured], shots=1000)\nresult = job.result()\nprint(f\" > Counts: {result[0].data['meas'].get_counts()}\")\n```\nRunning this will give an outcome similar to `{'000': 497, '111': 503}` which is `000` 50% of the time and `111` 50% of the time up to statistical fluctuations.\nTo illustrate the power of the Estimator, we now use the quantum information toolbox to create the operator $XXY+XYX+YXX-YYY$ and pass it to the `run()` function, along with our quantum circuit. Note that the Estimator requires a circuit _**without**_ measurements, so we use the `qc` circuit we created earlier.\n\n```python\n# 2. Define the observable to be measured \nfrom qiskit.quantum_info import SparsePauliOp\noperator = SparsePauliOp.from_list([(\"XXY\", 1), (\"XYX\", 1), (\"YXX\", 1), (\"YYY\", -1)])\n\n# 3. Execute using the Estimator primitive\nfrom qiskit.primitives import StatevectorEstimator\nestimator = StatevectorEstimator()\njob = estimator.run([(qc, operator)], precision=1e-3)\nresult = job.result()\nprint(f\" > Expectation values: {result[0].data.evs}\")\n```\n\nRunning this will give the outcome `4`. For fun, try to assign a value of +/- 1 to each single-qubit operator X and Y \nand see if you can achieve this outcome. (Spoiler alert: this is not possible!)\n\nUsing the Qiskit-provided `qiskit.primitives.StatevectorSampler` and `qiskit.primitives.StatevectorEstimator` will not take you very far.\nThe power of quantum computing cannot be simulated on classical computers and you need to use real quantum hardware to scale to larger quantum circuits.\nHowever, running a quantum circuit on hardware requires rewriting to the basis gates and connectivity of the quantum hardware.\nThe tool that does this is the [transpiler](https://quantum.cloud.ibm.com/docs/api/qiskit/transpiler), and Qiskit includes transpiler passes for synthesis, optimization, mapping, and scheduling.\nHowever, it also includes a default compiler, which works very well in most examples.\nThe following code will map the example circuit to the `basis_gates = [\"cz\", \"sx\", \"rz\"]` and a linear chain of qubits $0 \\rightarrow 1 \\rightarrow 2$ with the `coupling_map = [[0, 1], [1, 2]]`.\n\n```python\nfrom qiskit import transpile\nqc_transpiled = transpile(qc, basis_gates=[\"cz\", \"sx\", \"rz\"], coupling_map=[[0, 1], [1, 2]], optimization_level=3)\n```\n\n### Executing your code on real quantum hardware\n\nQiskit provides an abstraction layer that lets users run quantum circuits on hardware from any vendor that provides a compatible interface. \nThe best way to use Qiskit is with a runtime environment that provides optimized implementations of Sampler and Estimator for a given hardware platform. This runtime may involve using pre- and post-processing, such as optimized transpiler passes with error suppression, error mitigation, and, eventually, error correction built in. A runtime implements `qiskit.primitives.BaseSamplerV2` and `qiskit.primitives.BaseEstimatorV2` interfaces. For example,\nsome packages that provide implementations of a runtime primitive implementation are:\n\n* https://github.com/Qiskit/qiskit-ibm-runtime\n\nQiskit also provides a lower-level abstract interface for describing quantum backends. This interface, located in\n``qiskit.providers``, defines an abstract `BackendV2` class that providers can implement to represent their\nhardware or simulators to Qiskit. The backend class includes a common interface for executing circuits on the backends; however, in this interface each provider may perform different types of pre- and post-processing and return outcomes that are vendor-defined. Some examples of published provider packages that interface with real hardware are:\n\n* https://github.com/qiskit-community/qiskit-ionq\n* https://github.com/qiskit-community/qiskit-aqt-provider\n* https://github.com/qiskit-community/qiskit-braket-provider\n* https://github.com/qiskit-community/qiskit-quantinuum-provider\n* https://github.com/rigetti/qiskit-rigetti\n\n<!-- This is not an exhaustive list, and if you maintain a provider package please feel free to open a PR to add new providers -->\n\nYou can refer to the documentation of these packages for further instructions\non how to get access and use these systems.\n\n## Contribution Guidelines\n\nIf you'd like to contribute to Qiskit, please take a look at our\n[contribution guidelines](CONTRIBUTING.md). By participating, you are expected to uphold our [code of conduct](CODE_OF_CONDUCT.md).\n\nWe use [GitHub issues](https://github.com/Qiskit/qiskit/issues) for tracking requests and bugs. Please\n[join the Qiskit Slack community](https://qisk.it/join-slack) for discussion, comments, and questions.\nFor questions related to running or using Qiskit, [Stack Overflow has a `qiskit`](https://stackoverflow.com/questions/tagged/qiskit).\nFor questions on quantum computing with Qiskit, use the `qiskit` tag in the [Quantum Computing Stack Exchange](https://quantumcomputing.stackexchange.com/questions/tagged/qiskit) (please, read first the [guidelines on how to ask](https://quantumcomputing.stackexchange.com/help/how-to-ask) in that forum).\n\n\n## Authors and Citation\n\nQiskit is the work of [many people](https://github.com/Qiskit/qiskit/graphs/contributors) who contribute\nto the project at different levels. If you use Qiskit, please cite as per the included [BibTeX file](CITATION.bib).\n\n## Changelog and Release Notes\n\nThe changelog for a particular release is dynamically generated and gets\nwritten to the release page on Github for each release. For example, you can\nfind the page for the `1.2.0` release here:\n\n<https://github.com/Qiskit/qiskit/releases/tag/1.2.0>\n\nThe changelog for the current release can be found in the releases tab:\n[![Releases](https://img.shields.io/github/release/Qiskit/qiskit.svg?style=flat&label=)](https://github.com/Qiskit/qiskit/releases)\nThe changelog provides a quick overview of notable changes for a given\nrelease.\n\nAdditionally, as part of each release, detailed release notes are written to\ndocument in detail what has changed as part of a release. This includes any\ndocumentation on potential breaking changes on upgrade and new features. See [all release notes here](https://quantum.cloud.ibm.com/docs/api/qiskit/release-notes).\n\n## Acknowledgements\n\nWe acknowledge partial support for Qiskit development from the DOE Office of Science National Quantum Information Science Research Centers, Co-design Center for Quantum Advantage (C2QA) under contract number DE-SC0012704.\n\n## License\n\n[Apache License 2.0](LICENSE.txt)\n",
+        "description_content_type": "text/markdown",
+        "keywords": [
+          "qiskit",
+          "quantum circuit",
+          "quantum computing",
+          "quantum programming language",
+          "quantum",
+          "sdk"
+        ],
+        "author_email": "Qiskit Development Team <qiskit@us.ibm.com>",
+        "license": "Apache 2.0",
+        "license_file": [
+          "LICENSE.txt"
+        ],
+        "classifier": [
+          "Environment :: Console",
+          "Intended Audience :: Developers",
+          "Intended Audience :: Science/Research",
+          "License :: OSI Approved :: Apache Software License",
+          "Operating System :: MacOS",
+          "Operating System :: Microsoft :: Windows",
+          "Operating System :: POSIX :: Linux",
+          "Programming Language :: Python :: 3 :: Only",
+          "Programming Language :: Python :: 3.9",
+          "Programming Language :: Python :: 3.10",
+          "Programming Language :: Python :: 3.11",
+          "Programming Language :: Python :: 3.12",
+          "Programming Language :: Python :: 3.13",
+          "Topic :: Scientific/Engineering"
+        ],
+        "requires_dist": [
+          "rustworkx>=0.15.0",
+          "numpy<3,>=1.17",
+          "scipy>=1.5",
+          "sympy>=1.3",
+          "dill>=0.3",
+          "python-dateutil>=2.8.0",
+          "stevedore>=3.0.0",
+          "typing-extensions",
+          "symengine<0.14,>=0.11",
+          "qiskit-qasm3-import>=0.1.0; extra == \"qasm3-import\"",
+          "matplotlib>=3.3; extra == \"visualization\"",
+          "pydot; extra == \"visualization\"",
+          "Pillow>=4.2.1; extra == \"visualization\"",
+          "pylatexenc>=1.4; extra == \"visualization\"",
+          "seaborn>=0.9.0; extra == \"visualization\"",
+          "z3-solver>=4.7; extra == \"crosstalk-pass\"",
+          "python-constraint>=1.4; extra == \"csp-layout-pass\"",
+          "qiskit[crosstalk-pass,csp-layout-pass,qasm3-import,visualization]; extra == \"all\""
+        ],
+        "requires_python": ">=3.9",
+        "project_url": [
+          "Homepage, https://www.ibm.com/quantum/qiskit",
+          "Documentation, https://quantum.cloud.ibm.com/docs",
+          "API Reference, https://quantum.cloud.ibm.com/docs/api/qiskit",
+          "Repository, https://github.com/Qiskit/qiskit",
+          "Issues, https://github.com/Qiskit/qiskit/issues",
+          "Changelog, https://quantum.cloud.ibm.com/docs/api/qiskit/release-notes"
+        ],
+        "provides_extra": [
+          "qasm3-import",
+          "visualization",
+          "crosstalk-pass",
+          "csp-layout-pass",
+          "all"
+        ]
+      }
+    },
+    {
+      "download_info": {
+        "url": "https://files.pythonhosted.org/packages/ec/57/56b9bcc3c9c6a792fcbaf139543cee77261f3651ca9da0c93f5c1221264b/python_dateutil-2.9.0.post0-py2.py3-none-any.whl",
+        "archive_info": {
+          "hash": "sha256=a8b2bc7bffae282281c8140a97d3aa9c14da0b136dfe83f850eea9a5f7470427",
+          "hashes": {
+            "sha256": "a8b2bc7bffae282281c8140a97d3aa9c14da0b136dfe83f850eea9a5f7470427"
+          }
+        }
+      },
+      "is_direct": false,
+      "is_yanked": false,
+      "requested": false,
+      "metadata": {
+        "metadata_version": "2.1",
+        "name": "python-dateutil",
+        "version": "2.9.0.post0",
+        "summary": "Extensions to the standard Python datetime module",
+        "description": "dateutil - powerful extensions to datetime\n==========================================\n\n|pypi| |support| |licence|\n\n|gitter| |readthedocs|\n\n|travis| |appveyor| |pipelines| |coverage|\n\n.. |pypi| image:: https://img.shields.io/pypi/v/python-dateutil.svg?style=flat-square\n    :target: https://pypi.org/project/python-dateutil/\n    :alt: pypi version\n\n.. |support| image:: https://img.shields.io/pypi/pyversions/python-dateutil.svg?style=flat-square\n    :target: https://pypi.org/project/python-dateutil/\n    :alt: supported Python version\n\n.. |travis| image:: https://img.shields.io/travis/dateutil/dateutil/master.svg?style=flat-square&label=Travis%20Build\n    :target: https://travis-ci.org/dateutil/dateutil\n    :alt: travis build status\n\n.. |appveyor| image:: https://img.shields.io/appveyor/ci/dateutil/dateutil/master.svg?style=flat-square&logo=appveyor\n    :target: https://ci.appveyor.com/project/dateutil/dateutil\n    :alt: appveyor build status\n\n.. |pipelines| image:: https://dev.azure.com/pythondateutilazure/dateutil/_apis/build/status/dateutil.dateutil?branchName=master\n    :target: https://dev.azure.com/pythondateutilazure/dateutil/_build/latest?definitionId=1&branchName=master\n    :alt: azure pipelines build status\n\n.. |coverage| image:: https://codecov.io/gh/dateutil/dateutil/branch/master/graphs/badge.svg?branch=master\n    :target: https://codecov.io/gh/dateutil/dateutil?branch=master\n    :alt: Code coverage\n\n.. |gitter| image:: https://badges.gitter.im/dateutil/dateutil.svg\n   :alt: Join the chat at https://gitter.im/dateutil/dateutil\n   :target: https://gitter.im/dateutil/dateutil\n\n.. |licence| image:: https://img.shields.io/pypi/l/python-dateutil.svg?style=flat-square\n    :target: https://pypi.org/project/python-dateutil/\n    :alt: licence\n\n.. |readthedocs| image:: https://img.shields.io/readthedocs/dateutil/latest.svg?style=flat-square&label=Read%20the%20Docs\n   :alt: Read the documentation at https://dateutil.readthedocs.io/en/latest/\n   :target: https://dateutil.readthedocs.io/en/latest/\n\nThe `dateutil` module provides powerful extensions to\nthe standard `datetime` module, available in Python.\n\nInstallation\n============\n`dateutil` can be installed from PyPI using `pip` (note that the package name is\ndifferent from the importable name)::\n\n    pip install python-dateutil\n\nDownload\n========\ndateutil is available on PyPI\nhttps://pypi.org/project/python-dateutil/\n\nThe documentation is hosted at:\nhttps://dateutil.readthedocs.io/en/stable/\n\nCode\n====\nThe code and issue tracker are hosted on GitHub:\nhttps://github.com/dateutil/dateutil/\n\nFeatures\n========\n\n* Computing of relative deltas (next month, next year,\n  next Monday, last week of month, etc);\n* Computing of relative deltas between two given\n  date and/or datetime objects;\n* Computing of dates based on very flexible recurrence rules,\n  using a superset of the `iCalendar <https://www.ietf.org/rfc/rfc2445.txt>`_\n  specification. Parsing of RFC strings is supported as well.\n* Generic parsing of dates in almost any string format;\n* Timezone (tzinfo) implementations for tzfile(5) format\n  files (/etc/localtime, /usr/share/zoneinfo, etc), TZ\n  environment string (in all known formats), iCalendar\n  format files, given ranges (with help from relative deltas),\n  local machine timezone, fixed offset timezone, UTC timezone,\n  and Windows registry-based time zones.\n* Internal up-to-date world timezone information based on\n  Olson's database.\n* Computing of Easter Sunday dates for any given year,\n  using Western, Orthodox or Julian algorithms;\n* A comprehensive test suite.\n\nQuick example\n=============\nHere's a snapshot, just to give an idea about the power of the\npackage. For more examples, look at the documentation.\n\nSuppose you want to know how much time is left, in\nyears/months/days/etc, before the next easter happening on a\nyear with a Friday 13th in August, and you want to get today's\ndate out of the \"date\" unix system command. Here is the code:\n\n.. code-block:: python3\n\n    >>> from dateutil.relativedelta import *\n    >>> from dateutil.easter import *\n    >>> from dateutil.rrule import *\n    >>> from dateutil.parser import *\n    >>> from datetime import *\n    >>> now = parse(\"Sat Oct 11 17:13:46 UTC 2003\")\n    >>> today = now.date()\n    >>> year = rrule(YEARLY,dtstart=now,bymonth=8,bymonthday=13,byweekday=FR)[0].year\n    >>> rdelta = relativedelta(easter(year), today)\n    >>> print(\"Today is: %s\" % today)\n    Today is: 2003-10-11\n    >>> print(\"Year with next Aug 13th on a Friday is: %s\" % year)\n    Year with next Aug 13th on a Friday is: 2004\n    >>> print(\"How far is the Easter of that year: %s\" % rdelta)\n    How far is the Easter of that year: relativedelta(months=+6)\n    >>> print(\"And the Easter of that year is: %s\" % (today+rdelta))\n    And the Easter of that year is: 2004-04-11\n\nBeing exactly 6 months ahead was **really** a coincidence :)\n\nContributing\n============\n\nWe welcome many types of contributions - bug reports, pull requests (code, infrastructure or documentation fixes). For more information about how to contribute to the project, see the ``CONTRIBUTING.md`` file in the repository.\n\n\nAuthor\n======\nThe dateutil module was written by Gustavo Niemeyer <gustavo@niemeyer.net>\nin 2003.\n\nIt is maintained by:\n\n* Gustavo Niemeyer <gustavo@niemeyer.net> 2003-2011\n* Tomi Pieviläinen <tomi.pievilainen@iki.fi> 2012-2014\n* Yaron de Leeuw <me@jarondl.net> 2014-2016\n* Paul Ganssle <paul@ganssle.io> 2015-\n\nStarting with version 2.4.1 and running until 2.8.2, all source and binary\ndistributions will be signed by a PGP key that has, at the very least, been\nsigned by the key which made the previous release. A table of release signing\nkeys can be found below:\n\n===========  ============================\nReleases     Signing key fingerprint\n===========  ============================\n2.4.1-2.8.2  `6B49 ACBA DCF6 BD1C A206 67AB CD54 FCE3 D964 BEFB`_\n===========  ============================\n\nNew releases *may* have signed tags, but binary and source distributions\nuploaded to PyPI will no longer have GPG signatures attached.\n\nContact\n=======\nOur mailing list is available at `dateutil@python.org <https://mail.python.org/mailman/listinfo/dateutil>`_. As it is hosted by the PSF, it is subject to the `PSF code of\nconduct <https://www.python.org/psf/conduct/>`_.\n\nLicense\n=======\n\nAll contributions after December 1, 2017 released under dual license - either `Apache 2.0 License <https://www.apache.org/licenses/LICENSE-2.0>`_ or the `BSD 3-Clause License <https://opensource.org/licenses/BSD-3-Clause>`_. Contributions before December 1, 2017 - except those those explicitly relicensed - are released only under the BSD 3-Clause License.\n\n\n.. _6B49 ACBA DCF6 BD1C A206 67AB CD54 FCE3 D964 BEFB:\n   https://pgp.mit.edu/pks/lookup?op=vindex&search=0xCD54FCE3D964BEFB\n",
+        "description_content_type": "text/x-rst",
+        "home_page": "https://github.com/dateutil/dateutil",
+        "author": "Gustavo Niemeyer",
+        "author_email": "gustavo@niemeyer.net",
+        "maintainer": "Paul Ganssle",
+        "maintainer_email": "dateutil@python.org",
+        "license": "Dual License",
+        "license_file": [
+          "LICENSE"
+        ],
+        "classifier": [
+          "Development Status :: 5 - Production/Stable",
+          "Intended Audience :: Developers",
+          "License :: OSI Approved :: BSD License",
+          "License :: OSI Approved :: Apache Software License",
+          "Programming Language :: Python",
+          "Programming Language :: Python :: 2",
+          "Programming Language :: Python :: 2.7",
+          "Programming Language :: Python :: 3",
+          "Programming Language :: Python :: 3.3",
+          "Programming Language :: Python :: 3.4",
+          "Programming Language :: Python :: 3.5",
+          "Programming Language :: Python :: 3.6",
+          "Programming Language :: Python :: 3.7",
+          "Programming Language :: Python :: 3.8",
+          "Programming Language :: Python :: 3.9",
+          "Programming Language :: Python :: 3.10",
+          "Programming Language :: Python :: 3.11",
+          "Programming Language :: Python :: 3.12",
+          "Topic :: Software Development :: Libraries"
+        ],
+        "requires_dist": [
+          "six >=1.5"
+        ],
+        "requires_python": "!=3.0.*,!=3.1.*,!=3.2.*,>=2.7",
+        "project_url": [
+          "Documentation, https://dateutil.readthedocs.io/en/stable/",
+          "Source, https://github.com/dateutil/dateutil"
+        ]
+      }
+    },
+    {
+      "download_info": {
+        "url": "https://files.pythonhosted.org/packages/90/9f/5a171a9edff23eb0e33e0a2dca295a8b25fd64491ebe8cf765e489bd2bcd/symengine-0.13.0-cp312-cp312-manylinux_2_17_x86_64.manylinux2014_x86_64.whl",
+        "archive_info": {
+          "hash": "sha256=f7e6bae9cfcdde2775d92fbb0abe3ef04e32f65ebc4c2d164ca33f4da202d4a7",
+          "hashes": {
+            "sha256": "f7e6bae9cfcdde2775d92fbb0abe3ef04e32f65ebc4c2d164ca33f4da202d4a7"
+          }
+        }
+      },
+      "is_direct": false,
+      "is_yanked": false,
+      "requested": false,
+      "metadata": {
+        "metadata_version": "2.1",
+        "name": "symengine",
+        "version": "0.13.0",
+        "summary": "Python library providing wrappers to SymEngine",
+        "description": "\nSymEngine is a standalone fast C++ symbolic manipulation library.\nOptional thin Python wrappers (SymEngine) allow easy usage from Python and\nintegration with SymPy and Sage.\n\nSee https://github.com/symengine/symengine.py for information about License\nand dependencies of wheels\n\n",
+        "home_page": "https://github.com/symengine/symengine.py",
+        "author": "SymEngine development team",
+        "author_email": "symengine@googlegroups.com",
+        "license": "MIT",
+        "license_file": [
+          "LICENSE",
+          "AUTHORS"
+        ],
+        "classifier": [
+          "License :: OSI Approved :: MIT License",
+          "Operating System :: OS Independent",
+          "Programming Language :: Python",
+          "Topic :: Scientific/Engineering",
+          "Topic :: Scientific/Engineering :: Mathematics",
+          "Topic :: Scientific/Engineering :: Physics",
+          "Programming Language :: Python :: 3.8",
+          "Programming Language :: Python :: 3.9",
+          "Programming Language :: Python :: 3.10",
+          "Programming Language :: Python :: 3.11",
+          "Programming Language :: Python :: 3.12"
+        ],
+        "requires_python": ">=3.8,<4"
+      }
+    },
+    {
+      "download_info": {
+        "url": "https://files.pythonhosted.org/packages/a2/09/77d55d46fd61b4a135c444fc97158ef34a095e5681d0a6c10b75bf356191/sympy-1.14.0-py3-none-any.whl",
+        "archive_info": {
+          "hash": "sha256=e091cc3e99d2141a0ba2847328f5479b05d94a6635cb96148ccb3f34671bd8f5",
+          "hashes": {
+            "sha256": "e091cc3e99d2141a0ba2847328f5479b05d94a6635cb96148ccb3f34671bd8f5"
+          }
+        }
+      },
+      "is_direct": false,
+      "is_yanked": false,
+      "requested": false,
+      "metadata": {
+        "metadata_version": "2.4",
+        "name": "sympy",
+        "version": "1.14.0",
+        "dynamic": [
+          "author",
+          "author-email",
+          "classifier",
+          "description",
+          "description-content-type",
+          "home-page",
+          "keywords",
+          "license",
+          "license-file",
+          "project-url",
+          "provides-extra",
+          "requires-dist",
+          "requires-python",
+          "summary"
+        ],
+        "summary": "Computer algebra system (CAS) in Python",
+        "description": "# SymPy\n\n[![pypi version](https://img.shields.io/pypi/v/sympy.svg)](https://pypi.python.org/pypi/sympy)\n[![Join the chat at https://gitter.im/sympy/sympy](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/sympy/sympy?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)\n[![Zenodo Badge](https://zenodo.org/badge/18918/sympy/sympy.svg)](https://zenodo.org/badge/latestdoi/18918/sympy/sympy)\n[![Downloads](https://pepy.tech/badge/sympy/month)](https://pepy.tech/project/sympy)\n[![GitHub Issues](https://img.shields.io/badge/issue_tracking-github-blue.svg)](https://github.com/sympy/sympy/issues)\n[![Git Tutorial](https://img.shields.io/badge/PR-Welcome-%23FF8300.svg?)](https://git-scm.com/book/en/v2/GitHub-Contributing-to-a-Project)\n[![Powered by NumFocus](https://img.shields.io/badge/powered%20by-NumFOCUS-orange.svg?style=flat&colorA=E1523D&colorB=007D8A)](https://numfocus.org)\n[![Commits since last release](https://img.shields.io/github/commits-since/sympy/sympy/latest.svg?longCache=true&style=flat-square&logo=git&logoColor=fff)](https://github.com/sympy/sympy/releases)\n\n[![SymPy Banner](https://github.com/sympy/sympy/raw/master/banner.svg)](https://sympy.org/)\n\n\nSee the [AUTHORS](AUTHORS) file for the list of authors.\n\nAnd many more people helped on the SymPy mailing list, reported bugs,\nhelped organize SymPy's participation in the Google Summer of Code, the\nGoogle Highly Open Participation Contest, Google Code-In, wrote and\nblogged about SymPy...\n\nLicense: New BSD License (see the [LICENSE](LICENSE) file for details) covers all\nfiles in the sympy repository unless stated otherwise.\n\nOur mailing list is at\n<https://groups.google.com/forum/?fromgroups#!forum/sympy>.\n\nWe have a community chat at [Gitter](https://gitter.im/sympy/sympy). Feel\nfree to ask us anything there. We have a very welcoming and helpful\ncommunity.\n\n## Download\n\nThe recommended installation method is through Anaconda,\n<https://www.anaconda.com/products/distribution>\n\nYou can also get the latest version of SymPy from\n<https://pypi.python.org/pypi/sympy/>\n\nTo get the git version do\n\n    $ git clone https://github.com/sympy/sympy.git\n\nFor other options (tarballs, debs, etc.), see\n<https://docs.sympy.org/dev/install.html>.\n\n## Documentation and Usage\n\nFor in-depth instructions on installation and building the\ndocumentation, see the [SymPy Documentation Style Guide](https://docs.sympy.org/dev/documentation-style-guide.html).\n\nEverything is at:\n\n<https://docs.sympy.org/>\n\nYou can generate everything at the above site in your local copy of\nSymPy by:\n\n    $ cd doc\n    $ make html\n\nThen the docs will be in <span class=\"title-ref\">\\_build/html</span>. If\nyou don't want to read that, here is a short usage:\n\nFrom this directory, start Python and:\n\n``` python\n>>> from sympy import Symbol, cos\n>>> x = Symbol('x')\n>>> e = 1/cos(x)\n>>> print(e.series(x, 0, 10))\n1 + x**2/2 + 5*x**4/24 + 61*x**6/720 + 277*x**8/8064 + O(x**10)\n```\n\nSymPy also comes with a console that is a simple wrapper around the\nclassic python console (or IPython when available) that loads the SymPy\nnamespace and executes some common commands for you.\n\nTo start it, issue:\n\n    $ bin/isympy\n\nfrom this directory, if SymPy is not installed or simply:\n\n    $ isympy\n\nif SymPy is installed.\n\n## Installation\n\nTo install SymPy using PyPI, run the following command:\n\n    $ pip install sympy\n\nTo install SymPy using Anaconda, run the following command:\n\n    $ conda install -c anaconda sympy\n\nTo install SymPy from GitHub source, first clone SymPy using `git`:\n\n    $ git clone https://github.com/sympy/sympy.git\n\nThen, in the `sympy` repository that you cloned, simply run:\n\n    $ pip install .\n\nSee <https://docs.sympy.org/dev/install.html> for more information.\n\n## Contributing\n\nWe welcome contributions from anyone, even if you are new to open\nsource. Please read our [Introduction to Contributing](https://docs.sympy.org/dev/contributing/introduction-to-contributing.html)\npage and the [SymPy Documentation Style Guide](https://docs.sympy.org/dev/documentation-style-guide.html). If you\nare new and looking for some way to contribute, a good place to start is\nto look at the issues tagged [Easy to Fix](https://github.com/sympy/sympy/issues?q=is%3Aopen+is%3Aissue+label%3A%22Easy+to+Fix%22).\n\nPlease note that all participants in this project are expected to follow\nour Code of Conduct. By participating in this project you agree to abide\nby its terms. See [CODE\\_OF\\_CONDUCT.md](CODE_OF_CONDUCT.md).\n\n## Tests\n\nTo execute all tests, run:\n\n    $./setup.py test\n\nin the current directory.\n\nFor the more fine-grained running of tests or doctests, use `bin/test`\nor respectively `bin/doctest`. The master branch is automatically tested\nby GitHub Actions.\n\nTo test pull requests, use\n[sympy-bot](https://github.com/sympy/sympy-bot).\n\n## Regenerate Experimental <span class=\"title-ref\">LaTeX</span> Parser/Lexer\n\nThe parser and lexer were generated with the [ANTLR4](http://antlr4.org)\ntoolchain in `sympy/parsing/latex/_antlr` and checked into the repo.\nPresently, most users should not need to regenerate these files, but\nif you plan to work on this feature, you will need the `antlr4`\ncommand-line tool (and you must ensure that it is in your `PATH`).\nOne way to get it is:\n\n    $ conda install -c conda-forge antlr=4.11.1\n\nAlternatively, follow the instructions on the ANTLR website and download\nthe `antlr-4.11.1-complete.jar`. Then export the `CLASSPATH` as instructed\nand instead of creating `antlr4` as an alias, make it an executable file\nwith the following contents:\n``` bash\n#!/bin/bash\njava -jar /usr/local/lib/antlr-4.11.1-complete.jar \"$@\"\n```\n\nAfter making changes to `sympy/parsing/latex/LaTeX.g4`, run:\n\n    $ ./setup.py antlr\n\n## Clean\n\nTo clean everything (thus getting the same tree as in the repository):\n\n    $ git clean -Xdf\n\nwhich will clear everything ignored by `.gitignore`, and:\n\n    $ git clean -df\n\nto clear all untracked files. You can revert the most recent changes in\ngit with:\n\n    $ git reset --hard\n\nWARNING: The above commands will all clear changes you may have made,\nand you will lose them forever. Be sure to check things with `git\nstatus`, `git diff`, `git clean -Xn`, and `git clean -n` before doing any\nof those.\n\n## Bugs\n\nOur issue tracker is at <https://github.com/sympy/sympy/issues>. Please\nreport any bugs that you find. Or, even better, fork the repository on\nGitHub and create a pull request. We welcome all changes, big or small,\nand we will help you make the pull request if you are new to git (just\nask on our mailing list or Gitter Channel). If you further have any queries, you can find answers\non Stack Overflow using the [sympy](https://stackoverflow.com/questions/tagged/sympy) tag.\n\n## Brief History\n\nSymPy was started by Ondřej Čertík in 2005, he wrote some code during\nthe summer, then he wrote some more code during summer 2006. In February\n2007, Fabian Pedregosa joined the project and helped fix many things,\ncontributed documentation, and made it alive again. 5 students (Mateusz\nPaprocki, Brian Jorgensen, Jason Gedge, Robert Schwarz, and Chris Wu)\nimproved SymPy incredibly during summer 2007 as part of the Google\nSummer of Code. Pearu Peterson joined the development during the summer\n2007 and he has made SymPy much more competitive by rewriting the core\nfrom scratch, which has made it from 10x to 100x faster. Jurjen N.E. Bos\nhas contributed pretty-printing and other patches. Fredrik Johansson has\nwritten mpmath and contributed a lot of patches.\n\nSymPy has participated in every Google Summer of Code since 2007. You\ncan see <https://github.com/sympy/sympy/wiki#google-summer-of-code> for\nfull details. Each year has improved SymPy by bounds. Most of SymPy's\ndevelopment has come from Google Summer of Code students.\n\nIn 2011, Ondřej Čertík stepped down as lead developer, with Aaron\nMeurer, who also started as a Google Summer of Code student, taking his\nplace. Ondřej Čertík is still active in the community but is too busy\nwith work and family to play a lead development role.\n\nSince then, a lot more people have joined the development and some\npeople have also left. You can see the full list in doc/src/aboutus.rst,\nor online at:\n\n<https://docs.sympy.org/dev/aboutus.html#sympy-development-team>\n\nThe git history goes back to 2007 when development moved from svn to hg.\nTo see the history before that point, look at\n<https://github.com/sympy/sympy-old>.\n\nYou can use git to see the biggest developers. The command:\n\n    $ git shortlog -ns\n\nwill show each developer, sorted by commits to the project. The command:\n\n    $ git shortlog -ns --since=\"1 year\"\n\nwill show the top developers from the last year.\n\n## Citation\n\nTo cite SymPy in publications use\n\n> Meurer A, Smith CP, Paprocki M, Čertík O, Kirpichev SB, Rocklin M,\n> Kumar A, Ivanov S, Moore JK, Singh S, Rathnayake T, Vig S, Granger BE,\n> Muller RP, Bonazzi F, Gupta H, Vats S, Johansson F, Pedregosa F, Curry\n> MJ, Terrel AR, Roučka Š, Saboo A, Fernando I, Kulal S, Cimrman R,\n> Scopatz A. (2017) SymPy: symbolic computing in Python. *PeerJ Computer\n> Science* 3:e103 <https://doi.org/10.7717/peerj-cs.103>\n\nA BibTeX entry for LaTeX users is\n\n``` bibtex\n@article{10.7717/peerj-cs.103,\n title = {SymPy: symbolic computing in Python},\n author = {Meurer, Aaron and Smith, Christopher P. and Paprocki, Mateusz and \\v{C}ert\\'{i}k, Ond\\v{r}ej and Kirpichev, Sergey B. and Rocklin, Matthew and Kumar, Amit and Ivanov, Sergiu and Moore, Jason K. and Singh, Sartaj and Rathnayake, Thilina and Vig, Sean and Granger, Brian E. and Muller, Richard P. and Bonazzi, Francesco and Gupta, Harsh and Vats, Shivam and Johansson, Fredrik and Pedregosa, Fabian and Curry, Matthew J. and Terrel, Andy R. and Rou\\v{c}ka, \\v{S}t\\v{e}p\\'{a}n and Saboo, Ashutosh and Fernando, Isuru and Kulal, Sumith and Cimrman, Robert and Scopatz, Anthony},\n year = 2017,\n month = Jan,\n keywords = {Python, Computer algebra system, Symbolics},\n abstract = {\n            SymPy is an open-source computer algebra system written in pure Python. It is built with a focus on extensibility and ease of use, through both interactive and programmatic applications. These characteristics have led SymPy to become a popular symbolic library for the scientific Python ecosystem. This paper presents the architecture of SymPy, a description of its features, and a discussion of select submodules. The supplementary material provides additional examples and further outlines details of the architecture and features of SymPy.\n         },\n volume = 3,\n pages = {e103},\n journal = {PeerJ Computer Science},\n issn = {2376-5992},\n url = {https://doi.org/10.7717/peerj-cs.103},\n doi = {10.7717/peerj-cs.103}\n}\n```\n\nSymPy is BSD licensed, so you are free to use it whatever you like, be\nit academic, commercial, creating forks or derivatives, as long as you\ncopy the BSD statement if you redistribute it (see the LICENSE file for\ndetails). That said, although not required by the SymPy license, if it\nis convenient for you, please cite SymPy when using it in your work and\nalso consider contributing all your changes back, so that we can\nincorporate it and all of us will benefit in the end.\n",
+        "description_content_type": "text/markdown",
+        "keywords": [
+          "Math",
+          "CAS"
+        ],
+        "home_page": "https://sympy.org",
+        "author": "SymPy development team",
+        "author_email": "sympy@googlegroups.com",
+        "license": "BSD",
+        "license_file": [
+          "LICENSE",
+          "AUTHORS"
+        ],
+        "classifier": [
+          "License :: OSI Approved :: BSD License",
+          "Operating System :: OS Independent",
+          "Programming Language :: Python",
+          "Topic :: Scientific/Engineering",
+          "Topic :: Scientific/Engineering :: Mathematics",
+          "Topic :: Scientific/Engineering :: Physics",
+          "Programming Language :: Python :: 3",
+          "Programming Language :: Python :: 3.9",
+          "Programming Language :: Python :: 3.10",
+          "Programming Language :: Python :: 3.11",
+          "Programming Language :: Python :: 3.12",
+          "Programming Language :: Python :: 3.13",
+          "Programming Language :: Python :: 3 :: Only",
+          "Programming Language :: Python :: Implementation :: CPython",
+          "Programming Language :: Python :: Implementation :: PyPy"
+        ],
+        "requires_dist": [
+          "mpmath<1.4,>=1.1.0",
+          "pytest>=7.1.0; extra == \"dev\"",
+          "hypothesis>=6.70.0; extra == \"dev\""
+        ],
+        "requires_python": ">=3.9",
+        "project_url": [
+          "Source, https://github.com/sympy/sympy"
+        ],
+        "provides_extra": [
+          "dev"
+        ]
+      }
+    },
+    {
+      "download_info": {
+        "url": "https://files.pythonhosted.org/packages/43/e3/7d92a15f894aa0c9c4b49b8ee9ac9850d6e63b03c9c32c0367a13ae62209/mpmath-1.3.0-py3-none-any.whl",
+        "archive_info": {
+          "hash": "sha256=a0b2b9fe80bbcd81a6647ff13108738cfb482d481d826cc0e02f5b35e5c88d2c",
+          "hashes": {
+            "sha256": "a0b2b9fe80bbcd81a6647ff13108738cfb482d481d826cc0e02f5b35e5c88d2c"
+          }
+        }
+      },
+      "is_direct": false,
+      "is_yanked": false,
+      "requested": false,
+      "metadata": {
+        "metadata_version": "2.1",
+        "name": "mpmath",
+        "version": "1.3.0",
+        "summary": "Python library for arbitrary-precision floating-point arithmetic",
+        "description": "mpmath\n======\n\n|pypi version| |Build status| |Code coverage status| |Zenodo Badge|\n\n.. |pypi version| image:: https://img.shields.io/pypi/v/mpmath.svg\n   :target: https://pypi.python.org/pypi/mpmath\n.. |Build status| image:: https://github.com/fredrik-johansson/mpmath/workflows/test/badge.svg\n   :target: https://github.com/fredrik-johansson/mpmath/actions?workflow=test\n.. |Code coverage status| image:: https://codecov.io/gh/fredrik-johansson/mpmath/branch/master/graph/badge.svg\n   :target: https://codecov.io/gh/fredrik-johansson/mpmath\n.. |Zenodo Badge| image:: https://zenodo.org/badge/2934512.svg\n   :target: https://zenodo.org/badge/latestdoi/2934512\n\nA Python library for arbitrary-precision floating-point arithmetic.\n\nWebsite: http://mpmath.org/\nMain author: Fredrik Johansson <fredrik.johansson@gmail.com>\n\nMpmath is free software released under the New BSD License (see the\nLICENSE file for details)\n\n0. History and credits\n----------------------\n\nThe following people (among others) have contributed major patches\nor new features to mpmath:\n\n* Pearu Peterson <pearu.peterson@gmail.com>\n* Mario Pernici <mario.pernici@mi.infn.it>\n* Ondrej Certik <ondrej@certik.cz>\n* Vinzent Steinberg <vinzent.steinberg@gmail.cm>\n* Nimish Telang <ntelang@gmail.com>\n* Mike Taschuk <mtaschuk@ece.ualberta.ca>\n* Case Van Horsen <casevh@gmail.com>\n* Jorn Baayen <jorn.baayen@gmail.com>\n* Chris Smith <smichr@gmail.com>\n* Juan Arias de Reyna <arias@us.es>\n* Ioannis Tziakos <itziakos@gmail.com>\n* Aaron Meurer <asmeurer@gmail.com>\n* Stefan Krastanov <krastanov.stefan@gmail.com>\n* Ken Allen <ken.allen@sbcglobal.net>\n* Timo Hartmann <thartmann15@gmail.com>\n* Sergey B Kirpichev <skirpichev@gmail.com>\n* Kris Kuhlman <kristopher.kuhlman@gmail.com>\n* Paul Masson <paulmasson@analyticphysics.com>\n* Michael Kagalenko <michael.kagalenko@gmail.com>\n* Jonathan Warner <warnerjon12@gmail.com>\n* Max Gaukler <max.gaukler@fau.de>\n* Guillermo Navas-Palencia <g.navas.palencia@gmail.com>\n* Nike Dattani <nike@hpqc.org>\n\nNumerous other people have contributed by reporting bugs,\nrequesting new features, or suggesting improvements to the\ndocumentation.\n\nFor a detailed changelog, including individual contributions,\nsee the CHANGES file.\n\nFredrik's work on mpmath during summer 2008 was sponsored by Google\nas part of the Google Summer of Code program.\n\nFredrik's work on mpmath during summer 2009 was sponsored by the\nAmerican Institute of Mathematics under the support of the National Science\nFoundation Grant No. 0757627 (FRG: L-functions and Modular Forms).\n\nAny opinions, findings, and conclusions or recommendations expressed in this\nmaterial are those of the author(s) and do not necessarily reflect the\nviews of the sponsors.\n\nCredit also goes to:\n\n* The authors of the GMP library and the Python wrapper\n  gmpy, enabling mpmath to become much faster at\n  high precision\n* The authors of MPFR, pari/gp, MPFUN, and other arbitrary-\n  precision libraries, whose documentation has been helpful\n  for implementing many of the algorithms in mpmath\n* Wikipedia contributors; Abramowitz & Stegun; Gradshteyn & Ryzhik;\n  Wolfram Research for MathWorld and the Wolfram Functions site.\n  These are the main references used for special functions\n  implementations.\n* George Brandl for developing the Sphinx documentation tool\n  used to build mpmath's documentation\n\nRelease history:\n\n* Version 1.3.0 released on March 7, 2023\n* Version 1.2.0 released on February 1, 2021\n* Version 1.1.0 released on December 11, 2018\n* Version 1.0.0 released on September 27, 2017\n* Version 0.19 released on June 10, 2014\n* Version 0.18 released on December 31, 2013\n* Version 0.17 released on February 1, 2011\n* Version 0.16 released on September 24, 2010\n* Version 0.15 released on June 6, 2010\n* Version 0.14 released on February 5, 2010\n* Version 0.13 released on August 13, 2009\n* Version 0.12 released on June 9, 2009\n* Version 0.11 released on January 26, 2009\n* Version 0.10 released on October 15, 2008\n* Version 0.9 released on August 23, 2008\n* Version 0.8 released on April 20, 2008\n* Version 0.7 released on March 12, 2008\n* Version 0.6 released on January 13, 2008\n* Version 0.5 released on November 24, 2007\n* Version 0.4 released on November 3, 2007\n* Version 0.3 released on October 5, 2007\n* Version 0.2 released on October 2, 2007\n* Version 0.1 released on September 27, 2007\n\n1. Download & installation\n--------------------------\n\nMpmath requires Python 2.7 or 3.5 (or later versions). It has been tested\nwith CPython 2.7, 3.5 through 3.7 and for PyPy.\n\nThe latest release of mpmath can be downloaded from the mpmath\nwebsite and from https://github.com/fredrik-johansson/mpmath/releases\n\nIt should also be available in the Python Package Index at\nhttps://pypi.python.org/pypi/mpmath\n\nTo install latest release of Mpmath with pip, simply run\n\n``pip install mpmath``\n\nOr unpack the mpmath archive and run\n\n``python setup.py install``\n\nMpmath can also be installed using\n\n``python -m easy_install mpmath``\n\nThe latest development code is available from\nhttps://github.com/fredrik-johansson/mpmath\n\nSee the main documentation for more detailed instructions.\n\n2. Running tests\n----------------\n\nThe unit tests in mpmath/tests/ can be run via the script\nruntests.py, but it is recommended to run them with py.test\n(https://pytest.org/), especially\nto generate more useful reports in case there are failures.\n\nYou may also want to check out the demo scripts in the demo\ndirectory.\n\nThe master branch is automatically tested by Travis CI.\n\n3. Documentation\n----------------\n\nDocumentation in reStructuredText format is available in the\ndoc directory included with the source package. These files\nare human-readable, but can be compiled to prettier HTML using\nthe build.py script (requires Sphinx, http://sphinx.pocoo.org/).\n\nSee setup.txt in the documentation for more information.\n\nThe most recent documentation is also available in HTML format:\n\nhttp://mpmath.org/doc/current/\n\n4. Known problems\n-----------------\n\nMpmath is a work in progress. Major issues include:\n\n* Some functions may return incorrect values when given extremely\n  large arguments or arguments very close to singularities.\n\n* Directed rounding works for arithmetic operations. It is implemented\n  heuristically for other operations, and their results may be off by one\n  or two units in the last place (even if otherwise accurate).\n\n* Some IEEE 754 features are not available. Inifinities and NaN are\n  partially supported; denormal rounding is currently not available\n  at all.\n\n* The interface for switching precision and rounding is not finalized.\n  The current method is not threadsafe.\n\n5. Help and bug reports\n-----------------------\n\nGeneral questions and comments can be sent to the mpmath mailinglist,\nmpmath@googlegroups.com\n\nYou can also report bugs and send patches to the mpmath issue tracker,\nhttps://github.com/fredrik-johansson/mpmath/issues\n",
+        "home_page": "http://mpmath.org/",
+        "author": "Fredrik Johansson",
+        "author_email": "fredrik.johansson@gmail.com",
+        "license": "BSD",
+        "license_file": [
+          "LICENSE"
+        ],
+        "classifier": [
+          "License :: OSI Approved :: BSD License",
+          "Topic :: Scientific/Engineering :: Mathematics",
+          "Topic :: Software Development :: Libraries :: Python Modules",
+          "Programming Language :: Python",
+          "Programming Language :: Python :: 2",
+          "Programming Language :: Python :: 2.7",
+          "Programming Language :: Python :: 3",
+          "Programming Language :: Python :: 3.5",
+          "Programming Language :: Python :: 3.6",
+          "Programming Language :: Python :: 3.7",
+          "Programming Language :: Python :: 3.8",
+          "Programming Language :: Python :: 3.9",
+          "Programming Language :: Python :: Implementation :: CPython",
+          "Programming Language :: Python :: Implementation :: PyPy"
+        ],
+        "requires_dist": [
+          "pytest (>=4.6) ; extra == 'develop'",
+          "pycodestyle ; extra == 'develop'",
+          "pytest-cov ; extra == 'develop'",
+          "codecov ; extra == 'develop'",
+          "wheel ; extra == 'develop'",
+          "sphinx ; extra == 'docs'",
+          "gmpy2 (>=2.1.0a4) ; (platform_python_implementation != \"PyPy\") and extra == 'gmpy'",
+          "pytest (>=4.6) ; extra == 'tests'"
+        ],
+        "project_url": [
+          "Source, https://github.com/fredrik-johansson/mpmath",
+          "Tracker, https://github.com/fredrik-johansson/mpmath/issues",
+          "Documentation, http://mpmath.org/doc/current/"
+        ],
+        "provides_extra": [
+          "develop",
+          "docs",
+          "gmpy",
+          "tests"
+        ]
+      }
+    },
+    {
+      "download_info": {
+        "url": "https://files.pythonhosted.org/packages/b7/ce/149a00dd41f10bc29e5921b496af8b574d8413afcd5e30dfa0ed46c2cc5e/six-1.17.0-py2.py3-none-any.whl",
+        "archive_info": {
+          "hash": "sha256=4721f391ed90541fddacab5acf947aa0d3dc7d27b2e1e8eda2be8970586c3274",
+          "hashes": {
+            "sha256": "4721f391ed90541fddacab5acf947aa0d3dc7d27b2e1e8eda2be8970586c3274"
+          }
+        }
+      },
+      "is_direct": false,
+      "is_yanked": false,
+      "requested": false,
+      "metadata": {
+        "metadata_version": "2.1",
+        "name": "six",
+        "version": "1.17.0",
+        "summary": "Python 2 and 3 compatibility utilities",
+        "description": ".. image:: https://img.shields.io/pypi/v/six.svg\n   :target: https://pypi.org/project/six/\n   :alt: six on PyPI\n\n.. image:: https://readthedocs.org/projects/six/badge/?version=latest\n   :target: https://six.readthedocs.io/\n   :alt: six's documentation on Read the Docs\n\n.. image:: https://img.shields.io/badge/license-MIT-green.svg\n   :target: https://github.com/benjaminp/six/blob/master/LICENSE\n   :alt: MIT License badge\n\nSix is a Python 2 and 3 compatibility library.  It provides utility functions\nfor smoothing over the differences between the Python versions with the goal of\nwriting Python code that is compatible on both Python versions.  See the\ndocumentation for more information on what is provided.\n\nSix supports Python 2.7 and 3.3+.  It is contained in only one Python\nfile, so it can be easily copied into your project. (The copyright and license\nnotice must be retained.)\n\nOnline documentation is at https://six.readthedocs.io/.\n\nBugs can be reported to https://github.com/benjaminp/six.  The code can also\nbe found there.\n",
+        "home_page": "https://github.com/benjaminp/six",
+        "author": "Benjamin Peterson",
+        "author_email": "benjamin@python.org",
+        "license": "MIT",
+        "license_file": [
+          "LICENSE"
+        ],
+        "classifier": [
+          "Development Status :: 5 - Production/Stable",
+          "Programming Language :: Python :: 2",
+          "Programming Language :: Python :: 3",
+          "Intended Audience :: Developers",
+          "License :: OSI Approved :: MIT License",
+          "Topic :: Software Development :: Libraries",
+          "Topic :: Utilities"
+        ],
+        "requires_python": ">=2.7, !=3.0.*, !=3.1.*, !=3.2.*"
+      }
+    }
+  ],
+  "environment": {
+    "implementation_name": "cpython",
+    "implementation_version": "3.12.14",
+    "os_name": "posix",
+    "platform_machine": "x86_64",
+    "platform_release": "6.18.33.2-microsoft-standard-WSL2",
+    "platform_system": "Linux",
+    "platform_version": "#1 SMP PREEMPT_DYNAMIC Thu Jun 18 21:54:43 UTC 2026",
+    "python_full_version": "3.12.14",
+    "platform_python_implementation": "CPython",
+    "python_version": "3.12",
+    "sys_platform": "linux"
+  }
+}

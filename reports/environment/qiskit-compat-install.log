@@ -1,0 +1,32 @@
+Collecting qiskit==1.4.6
+  Downloading qiskit-1.4.6-cp39-abi3-manylinux2014_x86_64.manylinux_2_17_x86_64.whl.metadata (12 kB)
+Requirement already satisfied: rustworkx>=0.15.0 in /home/manager/miniforge3/envs/proofgate-pq/lib/python3.12/site-packages (from qiskit==1.4.6) (0.18.1)
+Requirement already satisfied: numpy<3,>=1.17 in /home/manager/miniforge3/envs/proofgate-pq/lib/python3.12/site-packages (from qiskit==1.4.6) (2.5.2)
+Requirement already satisfied: scipy>=1.5 in /home/manager/miniforge3/envs/proofgate-pq/lib/python3.12/site-packages (from qiskit==1.4.6) (1.18.1)
+Collecting sympy>=1.3 (from qiskit==1.4.6)
+  Using cached sympy-1.14.0-py3-none-any.whl.metadata (12 kB)
+Requirement already satisfied: dill>=0.3 in /home/manager/miniforge3/envs/proofgate-pq/lib/python3.12/site-packages (from qiskit==1.4.6) (0.4.1)
+Collecting python-dateutil>=2.8.0 (from qiskit==1.4.6)
+  Using cached python_dateutil-2.9.0.post0-py2.py3-none-any.whl.metadata (8.4 kB)
+Requirement already satisfied: stevedore>=3.0.0 in /home/manager/miniforge3/envs/proofgate-pq/lib/python3.12/site-packages (from qiskit==1.4.6) (5.9.1)
+Requirement already satisfied: typing-extensions in /home/manager/miniforge3/envs/proofgate-pq/lib/python3.12/site-packages (from qiskit==1.4.6) (4.16.0)
+Collecting symengine<0.14,>=0.11 (from qiskit==1.4.6)
+  Downloading symengine-0.13.0-cp312-cp312-manylinux_2_17_x86_64.manylinux2014_x86_64.whl.metadata (1.2 kB)
+Collecting six>=1.5 (from python-dateutil>=2.8.0->qiskit==1.4.6)
+  Using cached six-1.17.0-py2.py3-none-any.whl.metadata (1.7 kB)
+Collecting mpmath<1.4,>=1.1.0 (from sympy>=1.3->qiskit==1.4.6)
+  Using cached mpmath-1.3.0-py3-none-any.whl.metadata (8.6 kB)
+Downloading qiskit-1.4.6-cp39-abi3-manylinux2014_x86_64.manylinux_2_17_x86_64.whl (6.7 MB)
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 6.7/6.7 MB 64.4 MB/s eta 0:00:00
+Using cached python_dateutil-2.9.0.post0-py2.py3-none-any.whl (229 kB)
+Downloading symengine-0.13.0-cp312-cp312-manylinux_2_17_x86_64.manylinux2014_x86_64.whl (49.6 MB)
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 49.6/49.6 MB 105.8 MB/s eta 0:00:00
+Using cached sympy-1.14.0-py3-none-any.whl (6.3 MB)
+Using cached mpmath-1.3.0-py3-none-any.whl (536 kB)
+Using cached six-1.17.0-py2.py3-none-any.whl (11 kB)
+Installing collected packages: mpmath, sympy, symengine, six, python-dateutil, qiskit
+  Attempting uninstall: qiskit
+    Found existing installation: qiskit 2.5.2
+    Uninstalling qiskit-2.5.2:
+      Successfully uninstalled qiskit-2.5.2
+Successfully installed mpmath-1.3.0 python-dateutil-2.9.0.post0 qiskit-1.4.6 six-1.17.0 symengine-0.13.0 sympy-1.14.0

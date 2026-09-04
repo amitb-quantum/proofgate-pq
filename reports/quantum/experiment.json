@@ -1,0 +1,1 @@
+{"backend":"builtin-statevector-v1","gates":[{"op":"H","qubits":[0]},{"op":"CX","qubits":[0,1]}],"qubits":2,"schema_version":1,"seed":7,"shots":1024}

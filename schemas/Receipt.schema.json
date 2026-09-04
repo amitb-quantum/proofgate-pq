@@ -1,0 +1,210 @@
+{
+  "$defs": {
+    "Attestation": {
+      "additionalProperties": false,
+      "properties": {
+        "body": {
+          "$ref": "#/$defs/AttestationBody"
+        },
+        "signatures": {
+          "additionalProperties": {
+            "type": "string"
+          },
+          "title": "Signatures",
+          "type": "object"
+        }
+      },
+      "required": [
+        "body",
+        "signatures"
+      ],
+      "title": "Attestation",
+      "type": "object"
+    },
+    "AttestationBody": {
+      "additionalProperties": false,
+      "properties": {
+        "header": {
+          "$ref": "#/$defs/Header"
+        },
+        "verifier_id": {
+          "maxLength": 96,
+          "minLength": 1,
+          "pattern": "^[a-zA-Z0-9_.:-]+$",
+          "title": "Verifier Id",
+          "type": "string"
+        },
+        "disposition": {
+          "enum": [
+            "ALLOW",
+            "DENY",
+            "HUMAN_VERIFY",
+            "UNKNOWN",
+            "ERROR"
+          ],
+          "title": "Disposition",
+          "type": "string"
+        },
+        "predicates": {
+          "additionalProperties": {
+            "type": "boolean"
+          },
+          "title": "Predicates",
+          "type": "object"
+        }
+      },
+      "required": [
+        "header",
+        "verifier_id",
+        "disposition",
+        "predicates"
+      ],
+      "title": "AttestationBody",
+      "type": "object"
+    },
+    "Header": {
+      "additionalProperties": false,
+      "properties": {
+        "schema_version": {
+          "const": 1,
+          "title": "Schema Version",
+          "type": "integer"
+        },
+        "action_digest": {
+          "pattern": "^[0-9a-f]{96}$",
+          "title": "Action Digest",
+          "type": "string"
+        },
+        "policy": {
+          "$ref": "#/$defs/PolicyRef"
+        },
+        "policy_digest": {
+          "pattern": "^[0-9a-f]{96}$",
+          "title": "Policy Digest",
+          "type": "string"
+        },
+        "suite": {
+          "enum": [
+            "ed25519-v1",
+            "mldsa65-v1",
+            "ed25519-mldsa65-v1"
+          ],
+          "title": "Suite",
+          "type": "string"
+        },
+        "audience": {
+          "maxLength": 96,
+          "minLength": 1,
+          "pattern": "^[a-zA-Z0-9_.:-]+$",
+          "title": "Audience",
+          "type": "string"
+        },
+        "verifier_set": {
+          "items": {
+            "maxLength": 96,
+            "minLength": 1,
+            "pattern": "^[a-zA-Z0-9_.:-]+$",
+            "type": "string"
+          },
+          "maxItems": 16,
+          "minItems": 1,
+          "title": "Verifier Set",
+          "type": "array"
+        },
+        "quorum": {
+          "maximum": 16,
+          "minimum": 1,
+          "title": "Quorum",
+          "type": "integer"
+        },
+        "issued_at": {
+          "maximum": 9007199254740991,
+          "minimum": 0,
+          "title": "Issued At",
+          "type": "integer"
+        },
+        "expires_at": {
+          "maximum": 9007199254740991,
+          "minimum": 0,
+          "title": "Expires At",
+          "type": "integer"
+        },
+        "receipt_id": {
+          "pattern": "^[0-9a-f]{32}$",
+          "title": "Receipt Id",
+          "type": "string"
+        }
+      },
+      "required": [
+        "schema_version",
+        "action_digest",
+        "policy",
+        "policy_digest",
+        "suite",
+        "audience",
+        "verifier_set",
+        "quorum",
+        "issued_at",
+        "expires_at",
+        "receipt_id"
+      ],
+      "title": "Header",
+      "type": "object"
+    },
+    "PolicyRef": {
+      "additionalProperties": false,
+      "properties": {
+        "id": {
+          "maxLength": 96,
+          "minLength": 1,
+          "pattern": "^[a-zA-Z0-9_.:-]+$",
+          "title": "Id",
+          "type": "string"
+        },
+        "version": {
+          "minimum": 1,
+          "title": "Version",
+          "type": "integer"
+        }
+      },
+      "required": [
+        "id",
+        "version"
+      ],
+      "title": "PolicyRef",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "header": {
+      "$ref": "#/$defs/Header"
+    },
+    "disposition": {
+      "enum": [
+        "ALLOW",
+        "DENY",
+        "HUMAN_VERIFY",
+        "UNKNOWN",
+        "ERROR"
+      ],
+      "title": "Disposition",
+      "type": "string"
+    },
+    "attestations": {
+      "items": {
+        "$ref": "#/$defs/Attestation"
+      },
+      "maxItems": 16,
+      "title": "Attestations",
+      "type": "array"
+    }
+  },
+  "required": [
+    "header",
+    "disposition",
+    "attestations"
+  ],
+  "title": "Receipt",
+  "type": "object"
+}

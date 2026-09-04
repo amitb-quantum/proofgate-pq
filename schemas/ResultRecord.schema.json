@@ -1,0 +1,109 @@
+{
+  "$defs": {
+    "ResultBody": {
+      "additionalProperties": false,
+      "properties": {
+        "schema_version": {
+          "const": 1,
+          "title": "Schema Version",
+          "type": "integer"
+        },
+        "executor_id": {
+          "maxLength": 96,
+          "minLength": 1,
+          "pattern": "^[a-zA-Z0-9_.:-]+$",
+          "title": "Executor Id",
+          "type": "string"
+        },
+        "suite": {
+          "enum": [
+            "ed25519-v1",
+            "mldsa65-v1",
+            "ed25519-mldsa65-v1"
+          ],
+          "title": "Suite",
+          "type": "string"
+        },
+        "audience": {
+          "maxLength": 96,
+          "minLength": 1,
+          "pattern": "^[a-zA-Z0-9_.:-]+$",
+          "title": "Audience",
+          "type": "string"
+        },
+        "action_digest": {
+          "pattern": "^[0-9a-f]{96}$",
+          "title": "Action Digest",
+          "type": "string"
+        },
+        "frozen_digest": {
+          "pattern": "^[0-9a-f]{96}$",
+          "title": "Frozen Digest",
+          "type": "string"
+        },
+        "receipt_digest": {
+          "pattern": "^[0-9a-f]{96}$",
+          "title": "Receipt Digest",
+          "type": "string"
+        },
+        "receipt_id": {
+          "pattern": "^[0-9a-f]{32}$",
+          "title": "Receipt Id",
+          "type": "string"
+        },
+        "backend": {
+          "const": "builtin-statevector-v1",
+          "title": "Backend",
+          "type": "string"
+        },
+        "executed_at": {
+          "maximum": 9007199254740991,
+          "minimum": 0,
+          "title": "Executed At",
+          "type": "integer"
+        },
+        "counts": {
+          "additionalProperties": {
+            "type": "integer"
+          },
+          "title": "Counts",
+          "type": "object"
+        }
+      },
+      "required": [
+        "schema_version",
+        "executor_id",
+        "suite",
+        "audience",
+        "action_digest",
+        "frozen_digest",
+        "receipt_digest",
+        "receipt_id",
+        "backend",
+        "executed_at",
+        "counts"
+      ],
+      "title": "ResultBody",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "body": {
+      "$ref": "#/$defs/ResultBody"
+    },
+    "signatures": {
+      "additionalProperties": {
+        "type": "string"
+      },
+      "title": "Signatures",
+      "type": "object"
+    }
+  },
+  "required": [
+    "body",
+    "signatures"
+  ],
+  "title": "ResultRecord",
+  "type": "object"
+}

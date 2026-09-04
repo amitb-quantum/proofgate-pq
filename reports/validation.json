@@ -1,0 +1,30 @@
+{
+  "timestamp": "2026-09-04T22:54:17Z",
+  "python": "3.12.10",
+  "platform": "Windows-11-10.0.26200-SP0",
+  "tests": 179,
+  "failures": 0,
+  "errors": 0,
+  "skipped": 0,
+  "test_seconds": 6.396,
+  "ruff_check": "PASS",
+  "ruff_format": "PASS",
+  "mypy": "PASS",
+  "pip_check": "PASS",
+  "fresh_hash_locked_environment": "PASS",
+  "remote_ci": "NOT_RUN",
+  "adversarial_cases_per_suite": 44,
+  "suites_tested": [
+    "ed25519-v1",
+    "mldsa65-v1",
+    "ed25519-mldsa65-v1"
+  ],
+  "versions": {
+    "cryptography": "49.0.0",
+    "pydantic": "2.12.5",
+    "pytest": "9.1.1",
+    "hypothesis": "6.167.1",
+    "ruff": "0.16.6",
+    "mypy": "2.3.1"
+  }
+}

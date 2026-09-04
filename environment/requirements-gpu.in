@@ -1,0 +1,4 @@
+-r ../requirements-dev.in
+qiskit==1.4.6
+qiskit-aer-gpu==0.15.1
+cupy-cuda12x[ctk]==14.2.0

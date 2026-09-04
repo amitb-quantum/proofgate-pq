@@ -1,0 +1,76 @@
+Collecting annotated-types==0.8.0 (from -r requirements-dev.lock (line 7))
+  Using cached annotated_types-0.8.0-py3-none-any.whl (13 kB)
+Collecting ast-serialize==0.9.0 (from -r requirements-dev.lock (line 11))
+  Downloading ast_serialize-0.9.0-cp39-abi3-manylinux_2_17_x86_64.manylinux2014_x86_64.whl (1.3 MB)
+     ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 1.3/1.3 MB 30.6 MB/s eta 0:00:00
+Collecting build==1.6.0 (from -r requirements-dev.lock (line 70))
+  Downloading build-1.6.0-py3-none-any.whl (31 kB)
+Collecting cffi==2.1.1 (from -r requirements-dev.lock (line 74))
+  Using cached cffi-2.1.1-cp312-cp312-manylinux2014_x86_64.manylinux_2_17_x86_64.whl (221 kB)
+Collecting click==8.5.0 (from -r requirements-dev.lock (line 176))
+  Using cached click-8.5.0-py3-none-any.whl (125 kB)
+Collecting colorama==0.4.6 (from -r requirements-dev.lock (line 180))
+  Downloading colorama-0.4.6-py2.py3-none-any.whl (25 kB)
+Collecting cryptography==49.0.0 (from -r requirements-dev.lock (line 186))
+  Downloading cryptography-49.0.0-cp311-abi3-manylinux_2_34_x86_64.whl (4.7 MB)
+     ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 4.7/4.7 MB 81.4 MB/s eta 0:00:00
+Collecting hypothesis==6.167.1 (from -r requirements-dev.lock (line 234))
+  Downloading hypothesis-6.167.1-cp312-cp312-manylinux_2_17_x86_64.manylinux2014_x86_64.whl (1.2 MB)
+     ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 1.2/1.2 MB 66.4 MB/s eta 0:00:00
+Collecting iniconfig==2.3.0 (from -r requirements-dev.lock (line 317))
+  Using cached iniconfig-2.3.0-py3-none-any.whl (7.5 kB)
+Collecting librt==0.15.0 (from -r requirements-dev.lock (line 321))
+  Downloading librt-0.15.0-cp312-cp312-manylinux2014_x86_64.manylinux_2_17_x86_64.manylinux_2_28_x86_64.whl (531 kB)
+     ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 531.9/531.9 kB 46.2 MB/s eta 0:00:00
+Collecting mypy==2.3.1 (from -r requirements-dev.lock (line 460))
+  Downloading mypy-2.3.1-cp312-cp312-manylinux2014_x86_64.manylinux_2_17_x86_64.manylinux_2_28_x86_64.whl (15.3 MB)
+     ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 15.3/15.3 MB 91.6 MB/s eta 0:00:00
+Collecting mypy-extensions==1.1.0 (from -r requirements-dev.lock (line 514))
+  Using cached mypy_extensions-1.1.0-py3-none-any.whl (5.0 kB)
+Requirement already satisfied: packaging==26.3 in /home/manager/miniforge3/envs/proofgate-pq/lib/python3.12/site-packages (from -r requirements-dev.lock (line 518)) (26.3)
+Collecting pathspec==1.1.1 (from -r requirements-dev.lock (line 525))
+  Using cached pathspec-1.1.1-py3-none-any.whl (57 kB)
+Collecting pip-tools==7.6.1 (from -r requirements-dev.lock (line 529))
+  Downloading pip_tools-7.6.1-py3-none-any.whl (74 kB)
+Collecting pluggy==1.6.0 (from -r requirements-dev.lock (line 533))
+  Using cached pluggy-1.6.0-py3-none-any.whl (20 kB)
+Collecting pycparser==3.0 (from -r requirements-dev.lock (line 537))
+  Using cached pycparser-3.0-py3-none-any.whl (48 kB)
+Collecting pydantic==2.12.5 (from -r requirements-dev.lock (line 541))
+  Downloading pydantic-2.12.5-py3-none-any.whl (463 kB)
+Collecting pydantic-core==2.41.5 (from -r requirements-dev.lock (line 545))
+  Downloading pydantic_core-2.41.5-cp312-cp312-manylinux_2_17_x86_64.manylinux2014_x86_64.whl (2.1 MB)
+     ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 2.1/2.1 MB 83.9 MB/s eta 0:00:00
+Collecting pygments==2.21.0 (from -r requirements-dev.lock (line 668))
+  Using cached pygments-2.21.0-py3-none-any.whl (1.3 MB)
+Collecting pyproject-hooks==1.2.0 (from -r requirements-dev.lock (line 672))
+  Using cached pyproject_hooks-1.2.0-py3-none-any.whl (10 kB)
+Collecting pytest==9.1.1 (from -r requirements-dev.lock (line 678))
+  Using cached pytest-9.1.1-py3-none-any.whl (386 kB)
+Collecting ruff==0.16.6 (from -r requirements-dev.lock (line 682))
+  Downloading ruff-0.16.6-py3-none-manylinux_2_17_x86_64.manylinux2014_x86_64.whl (10.3 MB)
+     ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 10.3/10.3 MB 103.8 MB/s eta 0:00:00
+Collecting sortedcontainers==2.4.0 (from -r requirements-dev.lock (line 702))
+  Downloading sortedcontainers-2.4.0-py2.py3-none-any.whl (29 kB)
+Collecting typing-extensions==4.16.0 (from -r requirements-dev.lock (line 706))
+  Using cached typing_extensions-4.16.0-py3-none-any.whl (45 kB)
+Collecting typing-inspection==0.4.4 (from -r requirements-dev.lock (line 714))
+  Using cached typing_inspection-0.4.4-py3-none-any.whl (14 kB)
+Requirement already satisfied: wheel==0.48.0 in /home/manager/miniforge3/envs/proofgate-pq/lib/python3.12/site-packages (from -r requirements-dev.lock (line 718)) (0.48.0)
+Requirement already satisfied: pip==25.0.1 in /home/manager/miniforge3/envs/proofgate-pq/lib/python3.12/site-packages (from -r requirements-dev.lock (line 726)) (25.0.1)
+Requirement already satisfied: setuptools==84.0.0 in /home/manager/miniforge3/envs/proofgate-pq/lib/python3.12/site-packages (from -r requirements-dev.lock (line 732)) (84.0.0)
+Installing collected packages: sortedcontainers, typing-extensions, ruff, pyproject-hooks, pygments, pycparser, pluggy, pathspec, mypy-extensions, librt, iniconfig, hypothesis, colorama, click, ast-serialize, annotated-types, typing-inspection, pytest, pydantic-core, mypy, cffi, build, pydantic, pip-tools, cryptography
+Successfully installed annotated-types-0.8.0 ast-serialize-0.9.0 build-1.6.0 cffi-2.1.1 click-8.5.0 colorama-0.4.6 cryptography-49.0.0 hypothesis-6.167.1 iniconfig-2.3.0 librt-0.15.0 mypy-2.3.1 mypy-extensions-1.1.0 pathspec-1.1.1 pip-tools-7.6.1 pluggy-1.6.0 pycparser-3.0 pydantic-2.12.5 pydantic-core-2.41.5 pygments-2.21.0 pyproject-hooks-1.2.0 pytest-9.1.1 ruff-0.16.6 sortedcontainers-2.4.0 typing-extensions-4.16.0 typing-inspection-0.4.4
+Obtaining file:///home/manager/proofgate-pq
+  Checking if build backend supports build_editable: started
+  Checking if build backend supports build_editable: finished with status 'done'
+  Preparing editable metadata (pyproject.toml): started
+  Preparing editable metadata (pyproject.toml): finished with status 'done'
+Building wheels for collected packages: proofgate-pq
+  Building editable for proofgate-pq (pyproject.toml): started
+  Building editable for proofgate-pq (pyproject.toml): finished with status 'done'
+  Created wheel for proofgate-pq: filename=proofgate_pq-0.1.0-0.editable-py3-none-any.whl size=2508 sha256=6bab0203f4708655a6e149db90e13427352bea65ac7e9dcc535035cebb30a202
+  Stored in directory: /tmp/pip-ephem-wheel-cache-0sn1djlg/wheels/5b/02/fa/02bf5918bd73a270da63f7ae6aec835fb33d56ee01429aba07
+Successfully built proofgate-pq
+Installing collected packages: proofgate-pq
+Successfully installed proofgate-pq-0.1.0

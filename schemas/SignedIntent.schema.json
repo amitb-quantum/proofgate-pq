@@ -1,0 +1,259 @@
+{
+  "$defs": {
+    "Context": {
+      "additionalProperties": false,
+      "properties": {
+        "environment": {
+          "maxLength": 96,
+          "minLength": 1,
+          "pattern": "^[a-zA-Z0-9_.:-]+$",
+          "title": "Environment",
+          "type": "string"
+        },
+        "project": {
+          "maxLength": 96,
+          "minLength": 1,
+          "pattern": "^[a-zA-Z0-9_.:-]+$",
+          "title": "Project",
+          "type": "string"
+        }
+      },
+      "required": [
+        "environment",
+        "project"
+      ],
+      "title": "Context",
+      "type": "object"
+    },
+    "Experiment": {
+      "additionalProperties": false,
+      "properties": {
+        "schema_version": {
+          "const": 1,
+          "title": "Schema Version",
+          "type": "integer"
+        },
+        "backend": {
+          "const": "builtin-statevector-v1",
+          "title": "Backend",
+          "type": "string"
+        },
+        "qubits": {
+          "maximum": 8,
+          "minimum": 1,
+          "title": "Qubits",
+          "type": "integer"
+        },
+        "gates": {
+          "items": {
+            "$ref": "#/$defs/Gate"
+          },
+          "maxItems": 256,
+          "minItems": 1,
+          "title": "Gates",
+          "type": "array"
+        },
+        "shots": {
+          "maximum": 4096,
+          "minimum": 1,
+          "title": "Shots",
+          "type": "integer"
+        },
+        "seed": {
+          "maximum": 4294967295,
+          "minimum": 0,
+          "title": "Seed",
+          "type": "integer"
+        }
+      },
+      "required": [
+        "schema_version",
+        "backend",
+        "qubits",
+        "gates",
+        "shots",
+        "seed"
+      ],
+      "title": "Experiment",
+      "type": "object"
+    },
+    "Gate": {
+      "additionalProperties": false,
+      "properties": {
+        "op": {
+          "enum": [
+            "H",
+            "X",
+            "Z",
+            "CX"
+          ],
+          "title": "Op",
+          "type": "string"
+        },
+        "qubits": {
+          "items": {
+            "type": "integer"
+          },
+          "maxItems": 2,
+          "minItems": 1,
+          "title": "Qubits",
+          "type": "array"
+        }
+      },
+      "required": [
+        "op",
+        "qubits"
+      ],
+      "title": "Gate",
+      "type": "object"
+    },
+    "Intent": {
+      "additionalProperties": false,
+      "properties": {
+        "schema_version": {
+          "const": 1,
+          "title": "Schema Version",
+          "type": "integer"
+        },
+        "action_type": {
+          "const": "quantum.run",
+          "title": "Action Type",
+          "type": "string"
+        },
+        "subject": {
+          "maxLength": 96,
+          "minLength": 1,
+          "pattern": "^[a-zA-Z0-9_.:-]+$",
+          "title": "Subject",
+          "type": "string"
+        },
+        "target": {
+          "maxLength": 96,
+          "minLength": 1,
+          "pattern": "^[a-zA-Z0-9_.:-]+$",
+          "title": "Target",
+          "type": "string"
+        },
+        "audience": {
+          "maxLength": 96,
+          "minLength": 1,
+          "pattern": "^[a-zA-Z0-9_.:-]+$",
+          "title": "Audience",
+          "type": "string"
+        },
+        "parameters": {
+          "$ref": "#/$defs/Parameters"
+        },
+        "context": {
+          "$ref": "#/$defs/Context"
+        },
+        "nonce": {
+          "pattern": "^[0-9a-f]{32}$",
+          "title": "Nonce",
+          "type": "string"
+        },
+        "created_at": {
+          "maximum": 9007199254740991,
+          "minimum": 0,
+          "title": "Created At",
+          "type": "integer"
+        },
+        "expires_at": {
+          "maximum": 9007199254740991,
+          "minimum": 0,
+          "title": "Expires At",
+          "type": "integer"
+        },
+        "policy": {
+          "$ref": "#/$defs/PolicyRef"
+        },
+        "required_suite": {
+          "enum": [
+            "ed25519-v1",
+            "mldsa65-v1",
+            "ed25519-mldsa65-v1"
+          ],
+          "title": "Required Suite",
+          "type": "string"
+        }
+      },
+      "required": [
+        "schema_version",
+        "action_type",
+        "subject",
+        "target",
+        "audience",
+        "parameters",
+        "context",
+        "nonce",
+        "created_at",
+        "expires_at",
+        "policy",
+        "required_suite"
+      ],
+      "title": "Intent",
+      "type": "object"
+    },
+    "Parameters": {
+      "additionalProperties": false,
+      "properties": {
+        "experiment": {
+          "$ref": "#/$defs/Experiment"
+        },
+        "frozen_digest": {
+          "pattern": "^[0-9a-f]{96}$",
+          "title": "Frozen Digest",
+          "type": "string"
+        }
+      },
+      "required": [
+        "experiment",
+        "frozen_digest"
+      ],
+      "title": "Parameters",
+      "type": "object"
+    },
+    "PolicyRef": {
+      "additionalProperties": false,
+      "properties": {
+        "id": {
+          "maxLength": 96,
+          "minLength": 1,
+          "pattern": "^[a-zA-Z0-9_.:-]+$",
+          "title": "Id",
+          "type": "string"
+        },
+        "version": {
+          "minimum": 1,
+          "title": "Version",
+          "type": "integer"
+        }
+      },
+      "required": [
+        "id",
+        "version"
+      ],
+      "title": "PolicyRef",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "intent": {
+      "$ref": "#/$defs/Intent"
+    },
+    "signatures": {
+      "additionalProperties": {
+        "type": "string"
+      },
+      "title": "Signatures",
+      "type": "object"
+    }
+  },
+  "required": [
+    "intent",
+    "signatures"
+  ],
+  "title": "SignedIntent",
+  "type": "object"
+}

@@ -1,0 +1,46 @@
+[build-system]
+requires = ["setuptools==84.0.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "proofgate-pq"
+version = "0.1.0"
+description = "Evidence-bound authorization with authenticated verifier quorum and PQ signatures"
+requires-python = ">=3.12"
+dependencies = ["cryptography==49.0.0", "pydantic==2.12.5"]
+license = "MIT"
+
+[project.scripts]
+proofgate = "proofgate.cli:main"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+pythonpath = ["src"]
+addopts = "-ra"
+
+[tool.ruff]
+line-length = 100
+target-version = "py312"
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "UP", "B"]
+ignore = ["UP047"]
+
+[tool.ruff.lint.per-file-ignores]
+# Benchmark callbacks are invoked synchronously by _measure, never retained.
+"src/proofgate/benchmark.py" = ["B023"]
+"src/proofgate/gpu_benchmark.py" = ["B023"]
+
+[tool.mypy]
+python_version = "3.12"
+check_untyped_defs = true
+disallow_untyped_defs = true
+warn_unused_ignores = true
+files = ["src/proofgate"]
+
+[[tool.mypy.overrides]]
+module = ["qiskit.*", "qiskit_aer.*", "cupy.*", "numpy.*"]
+ignore_missing_imports = true

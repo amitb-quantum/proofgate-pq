@@ -1,0 +1,84 @@
+{
+  "$defs": {
+    "Gate": {
+      "additionalProperties": false,
+      "properties": {
+        "op": {
+          "enum": [
+            "H",
+            "X",
+            "Z",
+            "CX"
+          ],
+          "title": "Op",
+          "type": "string"
+        },
+        "qubits": {
+          "items": {
+            "type": "integer"
+          },
+          "maxItems": 2,
+          "minItems": 1,
+          "title": "Qubits",
+          "type": "array"
+        }
+      },
+      "required": [
+        "op",
+        "qubits"
+      ],
+      "title": "Gate",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "schema_version": {
+      "const": 1,
+      "title": "Schema Version",
+      "type": "integer"
+    },
+    "backend": {
+      "const": "builtin-statevector-v1",
+      "title": "Backend",
+      "type": "string"
+    },
+    "qubits": {
+      "maximum": 8,
+      "minimum": 1,
+      "title": "Qubits",
+      "type": "integer"
+    },
+    "gates": {
+      "items": {
+        "$ref": "#/$defs/Gate"
+      },
+      "maxItems": 256,
+      "minItems": 1,
+      "title": "Gates",
+      "type": "array"
+    },
+    "shots": {
+      "maximum": 4096,
+      "minimum": 1,
+      "title": "Shots",
+      "type": "integer"
+    },
+    "seed": {
+      "maximum": 4294967295,
+      "minimum": 0,
+      "title": "Seed",
+      "type": "integer"
+    }
+  },
+  "required": [
+    "schema_version",
+    "backend",
+    "qubits",
+    "gates",
+    "shots",
+    "seed"
+  ],
+  "title": "Experiment",
+  "type": "object"
+}

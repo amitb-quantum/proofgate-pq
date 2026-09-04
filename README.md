@@ -15,6 +15,24 @@ invalidates authorization. The executor signs the resulting provenance record.
 **This is not production-ready, independently audited, FIPS-validated, or a proof of
 correct quantum computation.** No paid quantum provider or remote service is used.
 
+## Current WSL/GPU continuation
+
+The authoritative checkout is `~/proofgate-pq` in WSL Ubuntu-26.04, using the dedicated
+Conda environment `proofgate-pq` (Python 3.12.14). The Windows checkout and measurements
+below are preserved historical baseline artifacts. No host driver or unrelated environment
+was changed. See [execution record](environment/README.md) and [AGENTS.md](AGENTS.md).
+
+The versioned GPU demo executes a 24-qubit non-Clifford experiment behind the same protected
+boundary. Measured simulation was 9.98x faster on RTX 5090 than the fixed eight-thread CPU
+reference; the complete protected workflow was 5.18x faster. Tiny circuits favor CPU.
+[Measured GPU report](docs/gpu-results.md), [raw measurements](reports/gpu-benchmark.json),
+[complete workflow](reports/gateway-gpu-benchmark.md), [red-team findings](docs/redteam-analysis.md).
+
+Baseline commit: `702d66bcbfd65fa0bb584b5a882eadf613cb7a2c`. Current suite: **212 tests**
+with real GPU integration enabled. Eighteen new red-team hypotheses and 2000 signed stress
+scenarios are preserved. No in-model exploitable authorization bypass was confirmed;
+replay-store rollback, stale in-memory policy and false executor assertions are explicit limits.
+
 ## Why separate authorization and execution?
 
 A user, application or autonomous agent can request the wrong action, supply ambiguous
@@ -132,25 +150,20 @@ algorithm is substituted or benchmarked under a misleading name. See [research](
 
 ## Quick start
 
-Python 3.12 is the tested interpreter. Windows PowerShell:
+Use the already created Linux environment:
 
-```powershell
-cd C:\Users\amitb\Documents\ProofGate-PQ
-python -m venv .venv
-.\.venv\Scripts\Activate.ps1
-python -m pip install --require-hashes -r requirements-dev.lock
-python -m pip install --no-deps --no-build-isolation -e .
+```bash
+cd ~/proofgate-pq
+source ~/miniforge3/etc/profile.d/conda.sh
+conda activate proofgate-pq
 python -m proofgate --root .demo-mine quantum-demo
+python -m proofgate --root .demo-gpu-mine gpu-demo --qubits 24 --layers 8
 ```
 
-Linux/macOS setup uses `python3 -m venv .venv` and `source .venv/bin/activate`; the remaining
-Python commands are the same. A Windows/Linux CI matrix is provided, but this delivery's
-recorded run is Windows only. Runtime-only dependencies are in `requirements.lock`.
-The development lock also supplies the pinned build backend for editable installation.
-
-Use a new `--root` directory for each demo; provisioning refuses to overwrite existing
-keys or replay state. Demo roots contain **plaintext private keys** and are ignored by Git.
-The tool does not configure Windows ACLs or separate service accounts.
+Use new demo directories: provisioning refuses to overwrite keys or replay state.
+The [environment record](environment/README.md) provides complete hash-locked recreation
+commands. All GPU runtimes are environment-local. For hardware checks run
+`PROOFGATE_GPU_TESTS=1 python -m pytest -q`; normal CPU-only CI skips hardware tests.
 
 ## Step-by-step workflow
 
@@ -196,7 +209,7 @@ or quantum SDK are necessary for the default demonstration.
 
 ## Recorded adversarial and property tests
 
-The recorded run has **179 passing tests**. The explicit corpus has **44 cases**, run
+The original recorded run had **179 passing tests**; the current WSL/GPU suite has **212**. The explicit corpus has **44 cases**, run
 against each of the three suites in pytest (132 checks). It includes all requested attack
 categories and additional trust, parsing, policy, audience, domain and replay attacks.
 See the complete [attack matrix](reports/attacks.md), [machine-readable corpus](reports/attacks.json)
@@ -222,7 +235,7 @@ cover all 24 manifest leaf fields and every attestation-body leaf in the referen
 Additional executor tests cover absent receipts, storage errors, expiry during reservation,
 failed adapters burning permits, snapshot isolation and historical provenance.
 
-## Recorded benchmarks
+## Original Windows baseline benchmarks
 
 Measured locally on Windows 11, Python 3.12.10, cryptography 49.0.0, OpenSSL 4.0.1; 30 API
 samples and five process samples per suite. Medians below are milliseconds. The raw
@@ -271,7 +284,7 @@ rollback, separate database paths and clock compromise invalidate the replay/exp
 The executor must exclusively control backend credentials, signing keys and execution code
 in a real deployment. A local Python owner can bypass Python and run a different simulator;
 this prototype cannot prevent that. Verifier trust anchors and policy are administrative
-inputs, not untrusted data discovered inside receipts. Updating policy contents rejects old
+inputs, not untrusted data discovered inside receipts. Updating policy contents in a newly loaded executor trust snapshot rejects old
 receipts even if the version label was mistakenly reused; retain old trust snapshots for audit.
 
 ## Repository
@@ -304,3 +317,6 @@ and rotation, authenticated transport, independently operated verifiers, protect
 rollback-resistant shared replay storage, backend credential isolation/idempotency, policy
 governance, fuzzing, resource limits and audit/incident operations. CI is configured locally;
 no repository was published and no external CI run or security audit was performed.
+
+The Aer extension requires its optional GPU dependency lock. Running executors do not
+watch policy files for changes; replace their loaded trust configuration explicitly.

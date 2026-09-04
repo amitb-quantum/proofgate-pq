@@ -1,0 +1,159 @@
+{
+  "baseline": "702d66bcbfd65fa0bb584b5a882eadf613cb7a2c",
+  "generated_at": 1788565366,
+  "findings": [
+    {
+      "hypothesis": "all_three_signers_lie_about_denied_target",
+      "classification": "CONFIRMED FAIL-CLOSED",
+      "expected_observation": "EVIDENCE_MISMATCH",
+      "observed": "EVIDENCE_MISMATCH",
+      "reproduced": true,
+      "boundary": "Stronger-than-model key compromise; executor deterministic policy still enforced"
+    },
+    {
+      "hypothesis": "mix_valid_attestations_from_different_issuances",
+      "classification": "CONFIRMED FAIL-CLOSED",
+      "expected_observation": "ATTESTATION_HEADER_MISMATCH",
+      "observed": "ATTESTATION_HEADER_MISMATCH",
+      "reproduced": true,
+      "boundary": "Untrusted coordinator; genuine signatures"
+    },
+    {
+      "hypothesis": "requester_resigns_changed_spec_with_old_receipt",
+      "classification": "CONFIRMED FAIL-CLOSED",
+      "expected_observation": "ACTION_MISMATCH",
+      "observed": "ACTION_MISMATCH",
+      "reproduced": true,
+      "boundary": "Legitimate requester controls its own key"
+    },
+    {
+      "hypothesis": "share_only_pq_component_between_requester_and_verifier",
+      "classification": "CONFIRMED FAIL-CLOSED",
+      "expected_observation": "TRUST_DUPLICATE_KEY",
+      "observed": "TRUST_DUPLICATE_KEY",
+      "reproduced": true,
+      "boundary": "Invalid administrative trust configuration"
+    },
+    {
+      "hypothesis": "escaped_duplicate_security_field",
+      "classification": "CONFIRMED FAIL-CLOSED",
+      "expected_observation": "DUPLICATE_JSON_KEY",
+      "observed": "DUPLICATE_JSON_KEY",
+      "reproduced": true,
+      "boundary": "Untrusted raw JSON, decoded-key collision"
+    },
+    {
+      "hypothesis": "numeric_truthy_predicate_substitution",
+      "classification": "CONFIRMED FAIL-CLOSED",
+      "expected_observation": "SCHEMA_INVALID",
+      "observed": "SCHEMA_INVALID",
+      "reproduced": true,
+      "boundary": "Untrusted JSON; Python bool/int equality attack"
+    },
+    {
+      "hypothesis": "dynamic_adapter_method_injection",
+      "classification": "CONFIRMED FAIL-CLOSED",
+      "expected_observation": "SCHEMA_INVALID",
+      "observed": "SCHEMA_INVALID",
+      "reproduced": true,
+      "boundary": "Untrusted circuit operator"
+    },
+    {
+      "hypothesis": "two_valid_votes_plus_corrupt_surplus",
+      "classification": "CONFIRMED FAIL-CLOSED",
+      "expected_observation": "SIGNATURE_INVALID",
+      "observed": "SIGNATURE_INVALID",
+      "reproduced": true,
+      "boundary": "Threshold met, but included invalid evidence must reject"
+    },
+    {
+      "hypothesis": "receipt_from_attacker_self_provisioned_cluster",
+      "classification": "CONFIRMED FAIL-CLOSED",
+      "expected_observation": "SIGNATURE_INVALID",
+      "observed": "SIGNATURE_INVALID",
+      "reproduced": true,
+      "boundary": "Executor retains genuine pinned keys"
+    },
+    {
+      "hypothesis": "replace_request_signature_with_another_valid_signature",
+      "classification": "DESIGN LIMITATION",
+      "expected_observation": "ALLOW",
+      "observed": "ALLOW",
+      "reproduced": true,
+      "boundary": "Same exact signed intent, no changed action; signature bytes not identity"
+    },
+    {
+      "hypothesis": "same_receipt_two_independent_replay_databases",
+      "classification": "ASSUMPTION VIOLATION",
+      "expected_observation": "EXECUTED_TWICE",
+      "observed": "EXECUTED_TWICE",
+      "reproduced": true,
+      "boundary": "Breaks the documented shared durable store assumption"
+    },
+    {
+      "hypothesis": "administrator_restores_preuse_database_snapshot",
+      "classification": "ASSUMPTION VIOLATION",
+      "expected_observation": "EXECUTED_TWICE",
+      "observed": "EXECUTED_TWICE",
+      "reproduced": true,
+      "boundary": "Breaks rollback protection; no unsafely erased repository data"
+    },
+    {
+      "hypothesis": "edit_policy_file_after_executor_construction",
+      "classification": "DESIGN LIMITATION",
+      "expected_observation": "OLD_SNAPSHOT_EXECUTES",
+      "observed": "OLD_SNAPSHOT_EXECUTES",
+      "reproduced": true,
+      "boundary": "Executor pins an in-memory snapshot; file edits are not live revocation"
+    },
+    {
+      "hypothesis": "trusted_adapter_lies_about_computation",
+      "classification": "ASSUMPTION VIOLATION",
+      "expected_observation": "FALSE_COUNTS_HAVE_VALID_SIGNATURE",
+      "observed": "FALSE_COUNTS_HAVE_VALID_SIGNATURE",
+      "reproduced": true,
+      "boundary": "Attestation is not proof of correct computation; malicious executor/runtime"
+    },
+    {
+      "hypothesis": "executor_key_forges_historical_result_without_running",
+      "classification": "ASSUMPTION VIOLATION",
+      "expected_observation": "SELF_ASSERTED_EXECUTION_TIME_ACCEPTED",
+      "observed": "SELF_ASSERTED_EXECUTION_TIME_ACCEPTED",
+      "reproduced": true,
+      "boundary": "No independent timestamp or hardware/computation proof"
+    },
+    {
+      "hypothesis": "coordinator_extends_every_header_without_resigning",
+      "classification": "CONFIRMED FAIL-CLOSED",
+      "expected_observation": "RECEIPT_TTL",
+      "observed": "RECEIPT_TTL",
+      "reproduced": true,
+      "boundary": "Untrusted coordinator; TTL cap catches before signatures"
+    },
+    {
+      "hypothesis": "truncated_transport_prefixes",
+      "classification": "CONFIRMED FAIL-CLOSED",
+      "expected_observation": "14_REJECTED",
+      "observed": "14_REJECTED",
+      "reproduced": true,
+      "boundary": "Bounded raw-byte probes, zero protected executions"
+    },
+    {
+      "hypothesis": "correlated_requester_resigned_mutation_bypass_search",
+      "classification": "NOT REPRODUCED",
+      "expected_observation": "NO_BYPASS_IN_32_TRIALS",
+      "observed": "NO_BYPASS_IN_32_TRIALS",
+      "reproduced": true,
+      "boundary": "Finite 32-trial search, no general security proof"
+    }
+  ],
+  "all_reproductions_match": true,
+  "scope": "Concrete local attacks; not an independent audit or formal proof",
+  "classification_counts": {
+    "CONFIRMED EXPLOITABLE": 0,
+    "CONFIRMED FAIL-CLOSED": 11,
+    "DESIGN LIMITATION": 2,
+    "ASSUMPTION VIOLATION": 4,
+    "NOT REPRODUCED": 1
+  }
+}

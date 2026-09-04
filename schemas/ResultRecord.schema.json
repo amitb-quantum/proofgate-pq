@@ -52,7 +52,11 @@
           "type": "string"
         },
         "backend": {
-          "const": "builtin-statevector-v1",
+          "enum": [
+            "builtin-statevector-v1",
+            "aer-statevector-cpu-v1",
+            "aer-statevector-gpu-v1"
+          ],
           "title": "Backend",
           "type": "string"
         },

@@ -1,0 +1,1880 @@
+{
+  "environment": {
+    "timestamp": "2026-09-04T23:32:48Z",
+    "python": "3.12.14",
+    "platform": "Linux-6.18.33.2-microsoft-standard-WSL2-x86_64-with-glibc2.43",
+    "gpu": "NVIDIA GeForce RTX 5090, 32607 MiB, 610.74, 12.0",
+    "cuda_driver_api": 13030,
+    "cuda_runtime": 12090,
+    "cupy_configuration": "OS                           : Linux-6.18.33.2-microsoft-standard-WSL2-x86_64-with-glibc2.43\nPython Version               : 3.12.14\nCuPy Version                 : 14.2.0\nCuPy Platform                : NVIDIA CUDA\nNumPy Version                : 2.5.2\nSciPy Version                : 1.18.1\nCython Build Version         : 3.2.4\nCython Runtime Version       : None\nCUDA Root                    : None\nNVCC PATH                    : None\nCUDA Build Version           : 12090\nCUDA Driver Version          : 13030\nCUDA Runtime Version         : 12090 (linked to CuPy) / 12090 (locally installed)\nCUDA Extra Include Dirs      : ['/home/manager/miniforge3/envs/proofgate-pq/lib/python3.12/site-packages/nvidia/cuda_runtime/include']\ncuBLAS Version               : (available)\ncuFFT Version                : 11401\ncuRAND Version               : 10310\ncuSOLVER Version             : (11, 7, 5)\ncuSPARSE Version             : (available)\nNVRTC Version                : (12, 9)\nThrust Version               : 300102\nCUB Build Version            : 300102\nJitify Build Version         : <unknown>\nNCCL Build Version           : (not loaded; try `import cupy.cuda.nccl` first)\nNCCL Runtime Version         : (not loaded; try `import cupy.cuda.nccl` first)\ncuTENSOR Version             : None\ncuSPARSELt Build Version     : None\nDevice 0 Name                : NVIDIA GeForce RTX 5090\nDevice 0 Compute Capability  : 120\nDevice 0 PCI Bus ID          : 0000:02:00.0\n",
+    "packages": {
+      "qiskit": "1.4.6",
+      "qiskit-aer-gpu": "0.15.1",
+      "cupy-cuda12x": "14.2.0",
+      "numpy": "2.5.2",
+      "cryptography": "49.0.0"
+    }
+  },
+  "workload": {
+    "qubits": 24,
+    "layers": 8,
+    "gates": 568,
+    "shots": 1024
+  },
+  "methodology": {
+    "trials": 7,
+    "warmups_per_device": 2,
+    "order": "alternating",
+    "clock": "perf_counter_ns",
+    "suite": "ed25519-mldsa65-v1",
+    "quorum": "3-of-3",
+    "included": "freeze/sign, three fresh verifier processes, executor receipt check, SQLite FULL reservation, simulation, result signing, provenance verification",
+    "excluded": "key provisioning; adapter/executor construction recorded separately",
+    "initialization": "first full run per device separately recorded before warmups",
+    "synchronization": "Aer job .result() waits for CPU/GPU completion",
+    "replay": "fresh intent nonce and receipt per run; same persistent database per device"
+  },
+  "devices": {
+    "CPU": {
+      "adapter_constructor_ms": 122.036802,
+      "executor_constructor_ms": 1.775144,
+      "warmups": [
+        {
+          "request_ms": 2.145878,
+          "authorization_ms": 110.780211,
+          "protected_execute_ms": 1279.614658,
+          "provenance_verify_ms": 13.237737,
+          "total_ms": 1405.778484,
+          "adapter": {
+            "circuit_build_ms": 1.104562,
+            "execution_ms": 1261.178463,
+            "total_ms": 1262.283025,
+            "metadata": {
+              "time_taken": 1.25448867,
+              "num_bind_params": 1,
+              "parallel_state_update": 8,
+              "parallel_shots": 1,
+              "required_memory_mb": 256,
+              "input_qubit_map": [],
+              "method": "statevector",
+              "device": "CPU",
+              "num_qubits": 24,
+              "sample_measure_time": 0.009975701,
+              "active_input_qubits": [
+                0,
+                1,
+                2,
+                3,
+                4,
+                5,
+                6,
+                7,
+                8,
+                9,
+                10,
+                11,
+                12,
+                13,
+                14,
+                15,
+                16,
+                17,
+                18,
+                19,
+                20,
+                21,
+                22,
+                23
+              ],
+              "num_clbits": 24,
+              "remapped_qubits": false,
+              "runtime_parameter_bind": false,
+              "max_memory_mb": 19997,
+              "noise": "ideal",
+              "measure_sampling": true,
+              "batched_shots_optimization": false,
+              "fusion": {
+                "applied": true,
+                "time_taken": 0.003174847,
+                "cost_factor": 1.8,
+                "parallelization": 1,
+                "max_fused_qubits": 5,
+                "method": "unitary",
+                "threshold": 14,
+                "enabled": true
+              }
+            }
+          },
+          "nodes": [
+            {
+              "identity": "verifier-1",
+              "pid": 97876
+            },
+            {
+              "identity": "verifier-2",
+              "pid": 97877
+            },
+            {
+              "identity": "verifier-3",
+              "pid": 97879
+            }
+          ],
+          "counts_total": 1024,
+          "intent_nonce": "fe731bf4ec451dab748ad39a7742391f",
+          "receipt_id": "70f36c1d6acc1a1742a33523a274ddbc"
+        },
+        {
+          "request_ms": 2.540301,
+          "authorization_ms": 110.536456,
+          "protected_execute_ms": 1266.387634,
+          "provenance_verify_ms": 12.909085,
+          "total_ms": 1392.373476,
+          "adapter": {
+            "circuit_build_ms": 1.389192,
+            "execution_ms": 1249.406142,
+            "total_ms": 1250.795334,
+            "metadata": {
+              "time_taken": 1.243615313,
+              "num_bind_params": 1,
+              "parallel_state_update": 8,
+              "parallel_shots": 1,
+              "required_memory_mb": 256,
+              "input_qubit_map": [],
+              "method": "statevector",
+              "device": "CPU",
+              "num_qubits": 24,
+              "sample_measure_time": 0.010206149,
+              "active_input_qubits": [
+                0,
+                1,
+                2,
+                3,
+                4,
+                5,
+                6,
+                7,
+                8,
+                9,
+                10,
+                11,
+                12,
+                13,
+                14,
+                15,
+                16,
+                17,
+                18,
+                19,
+                20,
+                21,
+                22,
+                23
+              ],
+              "num_clbits": 24,
+              "remapped_qubits": false,
+              "runtime_parameter_bind": false,
+              "max_memory_mb": 19997,
+              "noise": "ideal",
+              "measure_sampling": true,
+              "batched_shots_optimization": false,
+              "fusion": {
+                "applied": true,
+                "time_taken": 0.003287433,
+                "cost_factor": 1.8,
+                "parallelization": 1,
+                "max_fused_qubits": 5,
+                "method": "unitary",
+                "threshold": 14,
+                "enabled": true
+              }
+            }
+          },
+          "nodes": [
+            {
+              "identity": "verifier-1",
+              "pid": 97888
+            },
+            {
+              "identity": "verifier-2",
+              "pid": 97890
+            },
+            {
+              "identity": "verifier-3",
+              "pid": 97891
+            }
+          ],
+          "counts_total": 1024,
+          "intent_nonce": "38e6380df2c2987bad8e09d4625d4401",
+          "receipt_id": "618354d66a5cc26881f6807338dcbdb2"
+        }
+      ],
+      "raw": [
+        {
+          "request_ms": 2.332629,
+          "authorization_ms": 112.315804,
+          "protected_execute_ms": 1266.353156,
+          "provenance_verify_ms": 13.475227,
+          "total_ms": 1394.476816,
+          "adapter": {
+            "circuit_build_ms": 1.121391,
+            "execution_ms": 1249.874383,
+            "total_ms": 1250.995774,
+            "metadata": {
+              "time_taken": 1.244112428,
+              "num_bind_params": 1,
+              "parallel_state_update": 8,
+              "parallel_shots": 1,
+              "required_memory_mb": 256,
+              "input_qubit_map": [],
+              "method": "statevector",
+              "device": "CPU",
+              "num_qubits": 24,
+              "sample_measure_time": 0.010166423,
+              "active_input_qubits": [
+                0,
+                1,
+                2,
+                3,
+                4,
+                5,
+                6,
+                7,
+                8,
+                9,
+                10,
+                11,
+                12,
+                13,
+                14,
+                15,
+                16,
+                17,
+                18,
+                19,
+                20,
+                21,
+                22,
+                23
+              ],
+              "num_clbits": 24,
+              "remapped_qubits": false,
+              "runtime_parameter_bind": false,
+              "max_memory_mb": 19997,
+              "noise": "ideal",
+              "measure_sampling": true,
+              "batched_shots_optimization": false,
+              "fusion": {
+                "applied": true,
+                "time_taken": 0.003164262,
+                "cost_factor": 1.8,
+                "parallelization": 1,
+                "max_fused_qubits": 5,
+                "method": "unitary",
+                "threshold": 14,
+                "enabled": true
+              }
+            }
+          },
+          "nodes": [
+            {
+              "identity": "verifier-1",
+              "pid": 97900
+            },
+            {
+              "identity": "verifier-2",
+              "pid": 97903
+            },
+            {
+              "identity": "verifier-3",
+              "pid": 97902
+            }
+          ],
+          "counts_total": 1024,
+          "intent_nonce": "da34aab1ed403ae230f7bd61e47cd5aa",
+          "receipt_id": "7738da77de1e40df35f3531251903f33"
+        },
+        {
+          "request_ms": 2.098902,
+          "authorization_ms": 112.026566,
+          "protected_execute_ms": 1288.200389,
+          "provenance_verify_ms": 13.38206,
+          "total_ms": 1415.707917,
+          "adapter": {
+            "circuit_build_ms": 1.15751,
+            "execution_ms": 1271.31545,
+            "total_ms": 1272.47296,
+            "metadata": {
+              "time_taken": 1.265595537,
+              "num_bind_params": 1,
+              "parallel_state_update": 8,
+              "parallel_shots": 1,
+              "required_memory_mb": 256,
+              "input_qubit_map": [],
+              "method": "statevector",
+              "device": "CPU",
+              "num_qubits": 24,
+              "sample_measure_time": 0.010439864,
+              "active_input_qubits": [
+                0,
+                1,
+                2,
+                3,
+                4,
+                5,
+                6,
+                7,
+                8,
+                9,
+                10,
+                11,
+                12,
+                13,
+                14,
+                15,
+                16,
+                17,
+                18,
+                19,
+                20,
+                21,
+                22,
+                23
+              ],
+              "num_clbits": 24,
+              "remapped_qubits": false,
+              "runtime_parameter_bind": false,
+              "max_memory_mb": 19997,
+              "noise": "ideal",
+              "measure_sampling": true,
+              "batched_shots_optimization": false,
+              "fusion": {
+                "applied": true,
+                "time_taken": 0.003155541,
+                "cost_factor": 1.8,
+                "parallelization": 1,
+                "max_fused_qubits": 5,
+                "method": "unitary",
+                "threshold": 14,
+                "enabled": true
+              }
+            }
+          },
+          "nodes": [
+            {
+              "identity": "verifier-1",
+              "pid": 97918
+            },
+            {
+              "identity": "verifier-2",
+              "pid": 97920
+            },
+            {
+              "identity": "verifier-3",
+              "pid": 97921
+            }
+          ],
+          "counts_total": 1024,
+          "intent_nonce": "7a7ad82b31409cadd0803410a60d6861",
+          "receipt_id": "60ea15c28228e3e500559788443f1675"
+        },
+        {
+          "request_ms": 2.62095,
+          "authorization_ms": 115.792629,
+          "protected_execute_ms": 1289.722866,
+          "provenance_verify_ms": 13.397337,
+          "total_ms": 1421.533782,
+          "adapter": {
+            "circuit_build_ms": 1.271306,
+            "execution_ms": 1273.162411,
+            "total_ms": 1274.433717,
+            "metadata": {
+              "time_taken": 1.267145323,
+              "num_bind_params": 1,
+              "parallel_state_update": 8,
+              "parallel_shots": 1,
+              "required_memory_mb": 256,
+              "input_qubit_map": [],
+              "method": "statevector",
+              "device": "CPU",
+              "num_qubits": 24,
+              "sample_measure_time": 0.009686368,
+              "active_input_qubits": [
+                0,
+                1,
+                2,
+                3,
+                4,
+                5,
+                6,
+                7,
+                8,
+                9,
+                10,
+                11,
+                12,
+                13,
+                14,
+                15,
+                16,
+                17,
+                18,
+                19,
+                20,
+                21,
+                22,
+                23
+              ],
+              "num_clbits": 24,
+              "remapped_qubits": false,
+              "runtime_parameter_bind": false,
+              "max_memory_mb": 19997,
+              "noise": "ideal",
+              "measure_sampling": true,
+              "batched_shots_optimization": false,
+              "fusion": {
+                "applied": true,
+                "time_taken": 0.004229046,
+                "cost_factor": 1.8,
+                "parallelization": 1,
+                "max_fused_qubits": 5,
+                "method": "unitary",
+                "threshold": 14,
+                "enabled": true
+              }
+            }
+          },
+          "nodes": [
+            {
+              "identity": "verifier-1",
+              "pid": 97925
+            },
+            {
+              "identity": "verifier-2",
+              "pid": 97924
+            },
+            {
+              "identity": "verifier-3",
+              "pid": 97927
+            }
+          ],
+          "counts_total": 1024,
+          "intent_nonce": "87717dcb6ef820a5a3bf9aff1cf06cdc",
+          "receipt_id": "e48582b2dd936fdfd501dbc0b7e37c9c"
+        },
+        {
+          "request_ms": 2.651354,
+          "authorization_ms": 112.085636,
+          "protected_execute_ms": 1273.846561,
+          "provenance_verify_ms": 13.29702,
+          "total_ms": 1401.880571,
+          "adapter": {
+            "circuit_build_ms": 1.105153,
+            "execution_ms": 1257.055791,
+            "total_ms": 1258.160944,
+            "metadata": {
+              "time_taken": 1.25105443,
+              "num_bind_params": 1,
+              "parallel_state_update": 8,
+              "parallel_shots": 1,
+              "required_memory_mb": 256,
+              "input_qubit_map": [],
+              "method": "statevector",
+              "device": "CPU",
+              "num_qubits": 24,
+              "sample_measure_time": 0.009560557,
+              "active_input_qubits": [
+                0,
+                1,
+                2,
+                3,
+                4,
+                5,
+                6,
+                7,
+                8,
+                9,
+                10,
+                11,
+                12,
+                13,
+                14,
+                15,
+                16,
+                17,
+                18,
+                19,
+                20,
+                21,
+                22,
+                23
+              ],
+              "num_clbits": 24,
+              "remapped_qubits": false,
+              "runtime_parameter_bind": false,
+              "max_memory_mb": 19997,
+              "noise": "ideal",
+              "measure_sampling": true,
+              "batched_shots_optimization": false,
+              "fusion": {
+                "applied": true,
+                "time_taken": 0.003389646,
+                "cost_factor": 1.8,
+                "parallelization": 1,
+                "max_fused_qubits": 5,
+                "method": "unitary",
+                "threshold": 14,
+                "enabled": true
+              }
+            }
+          },
+          "nodes": [
+            {
+              "identity": "verifier-1",
+              "pid": 97941
+            },
+            {
+              "identity": "verifier-2",
+              "pid": 97943
+            },
+            {
+              "identity": "verifier-3",
+              "pid": 97945
+            }
+          ],
+          "counts_total": 1024,
+          "intent_nonce": "1186048c27ab3f3304cc2ae05e20f627",
+          "receipt_id": "07f3eb9241c4578f14c0239979a50ebb"
+        },
+        {
+          "request_ms": 2.363591,
+          "authorization_ms": 126.656242,
+          "protected_execute_ms": 1291.033652,
+          "provenance_verify_ms": 13.028403,
+          "total_ms": 1433.081888,
+          "adapter": {
+            "circuit_build_ms": 1.108474,
+            "execution_ms": 1274.584334,
+            "total_ms": 1275.692808,
+            "metadata": {
+              "time_taken": 1.268763372,
+              "num_bind_params": 1,
+              "parallel_state_update": 8,
+              "parallel_shots": 1,
+              "required_memory_mb": 256,
+              "input_qubit_map": [],
+              "method": "statevector",
+              "device": "CPU",
+              "num_qubits": 24,
+              "sample_measure_time": 0.010595586,
+              "active_input_qubits": [
+                0,
+                1,
+                2,
+                3,
+                4,
+                5,
+                6,
+                7,
+                8,
+                9,
+                10,
+                11,
+                12,
+                13,
+                14,
+                15,
+                16,
+                17,
+                18,
+                19,
+                20,
+                21,
+                22,
+                23
+              ],
+              "num_clbits": 24,
+              "remapped_qubits": false,
+              "runtime_parameter_bind": false,
+              "max_memory_mb": 19997,
+              "noise": "ideal",
+              "measure_sampling": true,
+              "batched_shots_optimization": false,
+              "fusion": {
+                "applied": true,
+                "time_taken": 0.003154519,
+                "cost_factor": 1.8,
+                "parallelization": 1,
+                "max_fused_qubits": 5,
+                "method": "unitary",
+                "threshold": 14,
+                "enabled": true
+              }
+            }
+          },
+          "nodes": [
+            {
+              "identity": "verifier-1",
+              "pid": 97950
+            },
+            {
+              "identity": "verifier-2",
+              "pid": 97949
+            },
+            {
+              "identity": "verifier-3",
+              "pid": 97951
+            }
+          ],
+          "counts_total": 1024,
+          "intent_nonce": "1b855c707ca7b33e30729c975f513673",
+          "receipt_id": "8bf7798136299237985e7769fa6d833b"
+        },
+        {
+          "request_ms": 2.245007,
+          "authorization_ms": 114.933173,
+          "protected_execute_ms": 1391.433578,
+          "provenance_verify_ms": 13.777299,
+          "total_ms": 1522.389057,
+          "adapter": {
+            "circuit_build_ms": 1.280823,
+            "execution_ms": 1374.643741,
+            "total_ms": 1375.924564,
+            "metadata": {
+              "time_taken": 1.368750632,
+              "num_bind_params": 1,
+              "parallel_state_update": 8,
+              "parallel_shots": 1,
+              "required_memory_mb": 256,
+              "input_qubit_map": [],
+              "method": "statevector",
+              "device": "CPU",
+              "num_qubits": 24,
+              "sample_measure_time": 0.010320685,
+              "active_input_qubits": [
+                0,
+                1,
+                2,
+                3,
+                4,
+                5,
+                6,
+                7,
+                8,
+                9,
+                10,
+                11,
+                12,
+                13,
+                14,
+                15,
+                16,
+                17,
+                18,
+                19,
+                20,
+                21,
+                22,
+                23
+              ],
+              "num_clbits": 24,
+              "remapped_qubits": false,
+              "runtime_parameter_bind": false,
+              "max_memory_mb": 19997,
+              "noise": "ideal",
+              "measure_sampling": true,
+              "batched_shots_optimization": false,
+              "fusion": {
+                "applied": true,
+                "time_taken": 0.003193895,
+                "cost_factor": 1.8,
+                "parallelization": 1,
+                "max_fused_qubits": 5,
+                "method": "unitary",
+                "threshold": 14,
+                "enabled": true
+              }
+            }
+          },
+          "nodes": [
+            {
+              "identity": "verifier-1",
+              "pid": 97966
+            },
+            {
+              "identity": "verifier-2",
+              "pid": 97968
+            },
+            {
+              "identity": "verifier-3",
+              "pid": 97969
+            }
+          ],
+          "counts_total": 1024,
+          "intent_nonce": "2f28493080b67f655296a9b0dcac4228",
+          "receipt_id": "90021aace42917b5ddc50d09a2b23cdc"
+        },
+        {
+          "request_ms": 2.586369,
+          "authorization_ms": 118.268924,
+          "protected_execute_ms": 1327.565516,
+          "provenance_verify_ms": 13.119545,
+          "total_ms": 1461.540354,
+          "adapter": {
+            "circuit_build_ms": 1.256128,
+            "execution_ms": 1308.775142,
+            "total_ms": 1310.03127,
+            "metadata": {
+              "time_taken": 1.302883553,
+              "num_bind_params": 1,
+              "parallel_state_update": 8,
+              "parallel_shots": 1,
+              "required_memory_mb": 256,
+              "input_qubit_map": [],
+              "method": "statevector",
+              "device": "CPU",
+              "num_qubits": 24,
+              "sample_measure_time": 0.010085912,
+              "active_input_qubits": [
+                0,
+                1,
+                2,
+                3,
+                4,
+                5,
+                6,
+                7,
+                8,
+                9,
+                10,
+                11,
+                12,
+                13,
+                14,
+                15,
+                16,
+                17,
+                18,
+                19,
+                20,
+                21,
+                22,
+                23
+              ],
+              "num_clbits": 24,
+              "remapped_qubits": false,
+              "runtime_parameter_bind": false,
+              "max_memory_mb": 19997,
+              "noise": "ideal",
+              "measure_sampling": true,
+              "batched_shots_optimization": false,
+              "fusion": {
+                "applied": true,
+                "time_taken": 0.003264607,
+                "cost_factor": 1.8,
+                "parallelization": 1,
+                "max_fused_qubits": 5,
+                "method": "unitary",
+                "threshold": 14,
+                "enabled": true
+              }
+            }
+          },
+          "nodes": [
+            {
+              "identity": "verifier-1",
+              "pid": 97972
+            },
+            {
+              "identity": "verifier-2",
+              "pid": 97973
+            },
+            {
+              "identity": "verifier-3",
+              "pid": 97975
+            }
+          ],
+          "counts_total": 1024,
+          "intent_nonce": "1021c5ad8ed1d79ce86d5769902d9d09",
+          "receipt_id": "36afc756c55d6b1b9a67af4f3165d45b"
+        }
+      ],
+      "first_run": {
+        "request_ms": 2.205667,
+        "authorization_ms": 111.850982,
+        "protected_execute_ms": 1281.361993,
+        "provenance_verify_ms": 31.036338,
+        "total_ms": 1426.45498,
+        "adapter": {
+          "circuit_build_ms": 1.501742,
+          "execution_ms": 1260.133536,
+          "total_ms": 1261.635278,
+          "metadata": {
+            "time_taken": 1.253592292,
+            "num_bind_params": 1,
+            "parallel_state_update": 8,
+            "parallel_shots": 1,
+            "required_memory_mb": 256,
+            "input_qubit_map": [],
+            "method": "statevector",
+            "device": "CPU",
+            "num_qubits": 24,
+            "sample_measure_time": 0.010526483,
+            "active_input_qubits": [
+              0,
+              1,
+              2,
+              3,
+              4,
+              5,
+              6,
+              7,
+              8,
+              9,
+              10,
+              11,
+              12,
+              13,
+              14,
+              15,
+              16,
+              17,
+              18,
+              19,
+              20,
+              21,
+              22,
+              23
+            ],
+            "num_clbits": 24,
+            "remapped_qubits": false,
+            "runtime_parameter_bind": false,
+            "max_memory_mb": 19997,
+            "noise": "ideal",
+            "measure_sampling": true,
+            "batched_shots_optimization": false,
+            "fusion": {
+              "applied": true,
+              "time_taken": 0.003489614,
+              "cost_factor": 1.8,
+              "parallelization": 1,
+              "max_fused_qubits": 5,
+              "method": "unitary",
+              "threshold": 14,
+              "enabled": true
+            }
+          }
+        },
+        "nodes": [
+          {
+            "identity": "verifier-1",
+            "pid": 97855
+          },
+          {
+            "identity": "verifier-2",
+            "pid": 97857
+          },
+          {
+            "identity": "verifier-3",
+            "pid": 97859
+          }
+        ],
+        "counts_total": 1024,
+        "intent_nonce": "ddcc8fa06dee30d0b026d96233a6dafe",
+        "receipt_id": "63185220b0655670ad7a0a74d696d9f5"
+      },
+      "summary_ms": {
+        "request_ms": {
+          "median": 2.363591,
+          "p05": 2.1427335,
+          "p95": 2.6422328,
+          "min": 2.098902,
+          "max": 2.651354,
+          "mean": 2.414114571428571,
+          "stdev": 0.2105088654766961
+        },
+        "authorization_ms": {
+          "median": 114.933173,
+          "p05": 112.044287,
+          "p95": 124.14004659999999,
+          "min": 112.026566,
+          "max": 126.656242,
+          "mean": 116.01128200000001,
+          "stdev": 5.237166293561658
+        },
+        "protected_execute_ms": {
+          "median": 1289.722866,
+          "p05": 1268.6011775,
+          "p95": 1372.2731594,
+          "min": 1266.353156,
+          "max": 1391.433578,
+          "mean": 1304.0222454285715,
+          "stdev": 43.104651397043966
+        },
+        "provenance_verify_ms": {
+          "median": 13.38206,
+          "p05": 13.055745600000002,
+          "p95": 13.686677399999999,
+          "min": 13.028403,
+          "max": 13.777299,
+          "mean": 13.353841571428571,
+          "stdev": 0.24521167258639798
+        },
+        "total_ms": {
+          "median": 1421.533782,
+          "p05": 1396.6979425,
+          "p95": 1504.1344461,
+          "min": 1394.476816,
+          "max": 1522.389057,
+          "mean": 1435.8014835714287,
+          "stdev": 44.03212597736366
+        }
+      }
+    },
+    "GPU": {
+      "adapter_constructor_ms": 0.128542,
+      "executor_constructor_ms": 1.722189,
+      "warmups": [
+        {
+          "request_ms": 2.255577,
+          "authorization_ms": 115.178554,
+          "protected_execute_ms": 138.690399,
+          "provenance_verify_ms": 12.942671,
+          "total_ms": 269.067201,
+          "adapter": {
+            "circuit_build_ms": 1.151943,
+            "execution_ms": 120.311102,
+            "total_ms": 121.463045,
+            "metadata": {
+              "time_taken": 0.114351479,
+              "num_bind_params": 1,
+              "parallel_state_update": 8,
+              "parallel_shots": 1,
+              "sample_measure_time": 0.102376959,
+              "required_memory_mb": 256,
+              "input_qubit_map": [],
+              "max_gpu_memory_mb": 32606,
+              "method": "statevector",
+              "device": "GPU",
+              "num_qubits": 24,
+              "active_input_qubits": [
+                0,
+                1,
+                2,
+                3,
+                4,
+                5,
+                6,
+                7,
+                8,
+                9,
+                10,
+                11,
+                12,
+                13,
+                14,
+                15,
+                16,
+                17,
+                18,
+                19,
+                20,
+                21,
+                22,
+                23
+              ],
+              "num_clbits": 24,
+              "remapped_qubits": false,
+              "cuStateVec_enable": false,
+              "runtime_parameter_bind": false,
+              "max_memory_mb": 19997,
+              "target_gpus": [
+                0
+              ],
+              "noise": "ideal",
+              "measure_sampling": true,
+              "batched_shots_optimization": false,
+              "fusion": {
+                "applied": true,
+                "time_taken": 0.003355913,
+                "cost_factor": 1.8,
+                "parallelization": 1,
+                "max_fused_qubits": 5,
+                "method": "unitary",
+                "threshold": 14,
+                "enabled": true
+              }
+            }
+          },
+          "nodes": [
+            {
+              "identity": "verifier-1",
+              "pid": 97884
+            },
+            {
+              "identity": "verifier-2",
+              "pid": 97883
+            },
+            {
+              "identity": "verifier-3",
+              "pid": 97885
+            }
+          ],
+          "counts_total": 1024,
+          "intent_nonce": "48caaae1e21ebb4d8e534c5d60e38209",
+          "receipt_id": "245ecd150430da40d2b32e253459bdff"
+        },
+        {
+          "request_ms": 2.523944,
+          "authorization_ms": 113.389544,
+          "protected_execute_ms": 137.493554,
+          "provenance_verify_ms": 30.939801,
+          "total_ms": 284.346843,
+          "adapter": {
+            "circuit_build_ms": 1.127743,
+            "execution_ms": 119.026289,
+            "total_ms": 120.154032,
+            "metadata": {
+              "time_taken": 0.113135411,
+              "num_bind_params": 1,
+              "parallel_state_update": 8,
+              "parallel_shots": 1,
+              "sample_measure_time": 0.102591222,
+              "required_memory_mb": 256,
+              "input_qubit_map": [],
+              "max_gpu_memory_mb": 32606,
+              "method": "statevector",
+              "device": "GPU",
+              "num_qubits": 24,
+              "active_input_qubits": [
+                0,
+                1,
+                2,
+                3,
+                4,
+                5,
+                6,
+                7,
+                8,
+                9,
+                10,
+                11,
+                12,
+                13,
+                14,
+                15,
+                16,
+                17,
+                18,
+                19,
+                20,
+                21,
+                22,
+                23
+              ],
+              "num_clbits": 24,
+              "remapped_qubits": false,
+              "cuStateVec_enable": false,
+              "runtime_parameter_bind": false,
+              "max_memory_mb": 19997,
+              "target_gpus": [
+                0
+              ],
+              "noise": "ideal",
+              "measure_sampling": true,
+              "batched_shots_optimization": false,
+              "fusion": {
+                "applied": true,
+                "time_taken": 0.003190239,
+                "cost_factor": 1.8,
+                "parallelization": 1,
+                "max_fused_qubits": 5,
+                "method": "unitary",
+                "threshold": 14,
+                "enabled": true
+              }
+            }
+          },
+          "nodes": [
+            {
+              "identity": "verifier-1",
+              "pid": 97894
+            },
+            {
+              "identity": "verifier-2",
+              "pid": 97897
+            },
+            {
+              "identity": "verifier-3",
+              "pid": 97896
+            }
+          ],
+          "counts_total": 1024,
+          "intent_nonce": "5e4d07714fe50301d8f4e062eece0be8",
+          "receipt_id": "6b11a138301cd5851b6ef3282bac39bf"
+        }
+      ],
+      "raw": [
+        {
+          "request_ms": 2.360412,
+          "authorization_ms": 111.40103,
+          "protected_execute_ms": 136.555468,
+          "provenance_verify_ms": 13.277958,
+          "total_ms": 263.594868,
+          "adapter": {
+            "circuit_build_ms": 1.250873,
+            "execution_ms": 119.412224,
+            "total_ms": 120.663097,
+            "metadata": {
+              "time_taken": 0.113465777,
+              "num_bind_params": 1,
+              "parallel_state_update": 8,
+              "parallel_shots": 1,
+              "sample_measure_time": 0.102731677,
+              "required_memory_mb": 256,
+              "input_qubit_map": [],
+              "max_gpu_memory_mb": 32606,
+              "method": "statevector",
+              "device": "GPU",
+              "num_qubits": 24,
+              "active_input_qubits": [
+                0,
+                1,
+                2,
+                3,
+                4,
+                5,
+                6,
+                7,
+                8,
+                9,
+                10,
+                11,
+                12,
+                13,
+                14,
+                15,
+                16,
+                17,
+                18,
+                19,
+                20,
+                21,
+                22,
+                23
+              ],
+              "num_clbits": 24,
+              "remapped_qubits": false,
+              "cuStateVec_enable": false,
+              "runtime_parameter_bind": false,
+              "max_memory_mb": 19997,
+              "target_gpus": [
+                0
+              ],
+              "noise": "ideal",
+              "measure_sampling": true,
+              "batched_shots_optimization": false,
+              "fusion": {
+                "applied": true,
+                "time_taken": 0.003232245,
+                "cost_factor": 1.8,
+                "parallelization": 1,
+                "max_fused_qubits": 5,
+                "method": "unitary",
+                "threshold": 14,
+                "enabled": true
+              }
+            }
+          },
+          "nodes": [
+            {
+              "identity": "verifier-1",
+              "pid": 97905
+            },
+            {
+              "identity": "verifier-2",
+              "pid": 97907
+            },
+            {
+              "identity": "verifier-3",
+              "pid": 97909
+            }
+          ],
+          "counts_total": 1024,
+          "intent_nonce": "42ea7135455112f6462ec76a88307ab8",
+          "receipt_id": "cb144fe974d33b135ade64ac6fe00772"
+        },
+        {
+          "request_ms": 2.226673,
+          "authorization_ms": 116.725198,
+          "protected_execute_ms": 139.975426,
+          "provenance_verify_ms": 13.212604,
+          "total_ms": 272.139901,
+          "adapter": {
+            "circuit_build_ms": 1.193031,
+            "execution_ms": 121.673892,
+            "total_ms": 122.866923,
+            "metadata": {
+              "time_taken": 0.115338318,
+              "num_bind_params": 1,
+              "parallel_state_update": 8,
+              "parallel_shots": 1,
+              "sample_measure_time": 0.103128861,
+              "required_memory_mb": 256,
+              "input_qubit_map": [],
+              "max_gpu_memory_mb": 32606,
+              "method": "statevector",
+              "device": "GPU",
+              "num_qubits": 24,
+              "active_input_qubits": [
+                0,
+                1,
+                2,
+                3,
+                4,
+                5,
+                6,
+                7,
+                8,
+                9,
+                10,
+                11,
+                12,
+                13,
+                14,
+                15,
+                16,
+                17,
+                18,
+                19,
+                20,
+                21,
+                22,
+                23
+              ],
+              "num_clbits": 24,
+              "remapped_qubits": false,
+              "cuStateVec_enable": false,
+              "runtime_parameter_bind": false,
+              "max_memory_mb": 19997,
+              "target_gpus": [
+                0
+              ],
+              "noise": "ideal",
+              "measure_sampling": true,
+              "batched_shots_optimization": false,
+              "fusion": {
+                "applied": true,
+                "time_taken": 0.004355252,
+                "cost_factor": 1.8,
+                "parallelization": 1,
+                "max_fused_qubits": 5,
+                "method": "unitary",
+                "threshold": 14,
+                "enabled": true
+              }
+            }
+          },
+          "nodes": [
+            {
+              "identity": "verifier-1",
+              "pid": 97911
+            },
+            {
+              "identity": "verifier-2",
+              "pid": 97914
+            },
+            {
+              "identity": "verifier-3",
+              "pid": 97915
+            }
+          ],
+          "counts_total": 1024,
+          "intent_nonce": "74f44817a8ab44cae9a04e5534197b9d",
+          "receipt_id": "33b682513ae1c4f1c124bba66bb6a5db"
+        },
+        {
+          "request_ms": 2.188852,
+          "authorization_ms": 112.84519,
+          "protected_execute_ms": 166.118916,
+          "provenance_verify_ms": 12.846172,
+          "total_ms": 293.99913,
+          "adapter": {
+            "circuit_build_ms": 1.104686,
+            "execution_ms": 128.892429,
+            "total_ms": 129.997115,
+            "metadata": {
+              "time_taken": 0.123110317,
+              "num_bind_params": 1,
+              "parallel_state_update": 8,
+              "parallel_shots": 1,
+              "sample_measure_time": 0.109876003,
+              "required_memory_mb": 256,
+              "input_qubit_map": [],
+              "max_gpu_memory_mb": 32606,
+              "method": "statevector",
+              "device": "GPU",
+              "num_qubits": 24,
+              "active_input_qubits": [
+                0,
+                1,
+                2,
+                3,
+                4,
+                5,
+                6,
+                7,
+                8,
+                9,
+                10,
+                11,
+                12,
+                13,
+                14,
+                15,
+                16,
+                17,
+                18,
+                19,
+                20,
+                21,
+                22,
+                23
+              ],
+              "num_clbits": 24,
+              "remapped_qubits": false,
+              "cuStateVec_enable": false,
+              "runtime_parameter_bind": false,
+              "max_memory_mb": 19997,
+              "target_gpus": [
+                0
+              ],
+              "noise": "ideal",
+              "measure_sampling": true,
+              "batched_shots_optimization": false,
+              "fusion": {
+                "applied": true,
+                "time_taken": 0.003226936,
+                "cost_factor": 1.8,
+                "parallelization": 1,
+                "max_fused_qubits": 5,
+                "method": "unitary",
+                "threshold": 14,
+                "enabled": true
+              }
+            }
+          },
+          "nodes": [
+            {
+              "identity": "verifier-1",
+              "pid": 97930
+            },
+            {
+              "identity": "verifier-2",
+              "pid": 97933
+            },
+            {
+              "identity": "verifier-3",
+              "pid": 97932
+            }
+          ],
+          "counts_total": 1024,
+          "intent_nonce": "d1112f817d89546f9d02f0a05358139d",
+          "receipt_id": "35856e380405f2179240193b27453bae"
+        },
+        {
+          "request_ms": 2.010731,
+          "authorization_ms": 113.635386,
+          "protected_execute_ms": 145.498058,
+          "provenance_verify_ms": 13.595416,
+          "total_ms": 274.739591,
+          "adapter": {
+            "circuit_build_ms": 1.375411,
+            "execution_ms": 127.234736,
+            "total_ms": 128.610147,
+            "metadata": {
+              "time_taken": 0.120923827,
+              "num_bind_params": 1,
+              "parallel_state_update": 8,
+              "parallel_shots": 1,
+              "sample_measure_time": 0.107686868,
+              "required_memory_mb": 256,
+              "input_qubit_map": [],
+              "max_gpu_memory_mb": 32606,
+              "method": "statevector",
+              "device": "GPU",
+              "num_qubits": 24,
+              "active_input_qubits": [
+                0,
+                1,
+                2,
+                3,
+                4,
+                5,
+                6,
+                7,
+                8,
+                9,
+                10,
+                11,
+                12,
+                13,
+                14,
+                15,
+                16,
+                17,
+                18,
+                19,
+                20,
+                21,
+                22,
+                23
+              ],
+              "num_clbits": 24,
+              "remapped_qubits": false,
+              "cuStateVec_enable": false,
+              "runtime_parameter_bind": false,
+              "max_memory_mb": 19997,
+              "target_gpus": [
+                0
+              ],
+              "noise": "ideal",
+              "measure_sampling": true,
+              "batched_shots_optimization": false,
+              "fusion": {
+                "applied": true,
+                "time_taken": 0.003211532,
+                "cost_factor": 1.8,
+                "parallelization": 1,
+                "max_fused_qubits": 5,
+                "method": "unitary",
+                "threshold": 14,
+                "enabled": true
+              }
+            }
+          },
+          "nodes": [
+            {
+              "identity": "verifier-1",
+              "pid": 97935
+            },
+            {
+              "identity": "verifier-2",
+              "pid": 97939
+            },
+            {
+              "identity": "verifier-3",
+              "pid": 97938
+            }
+          ],
+          "counts_total": 1024,
+          "intent_nonce": "952de74eea954e8f0d20065ead67cc4b",
+          "receipt_id": "29cf1b1c6f336ba6d083b4443e2ae011"
+        },
+        {
+          "request_ms": 2.120327,
+          "authorization_ms": 112.710728,
+          "protected_execute_ms": 142.886823,
+          "provenance_verify_ms": 13.110258,
+          "total_ms": 270.828136,
+          "adapter": {
+            "circuit_build_ms": 1.102648,
+            "execution_ms": 126.073564,
+            "total_ms": 127.176212,
+            "metadata": {
+              "time_taken": 0.119991644,
+              "num_bind_params": 1,
+              "parallel_state_update": 8,
+              "parallel_shots": 1,
+              "sample_measure_time": 0.106940008,
+              "required_memory_mb": 256,
+              "input_qubit_map": [],
+              "max_gpu_memory_mb": 32606,
+              "method": "statevector",
+              "device": "GPU",
+              "num_qubits": 24,
+              "active_input_qubits": [
+                0,
+                1,
+                2,
+                3,
+                4,
+                5,
+                6,
+                7,
+                8,
+                9,
+                10,
+                11,
+                12,
+                13,
+                14,
+                15,
+                16,
+                17,
+                18,
+                19,
+                20,
+                21,
+                22,
+                23
+              ],
+              "num_clbits": 24,
+              "remapped_qubits": false,
+              "cuStateVec_enable": false,
+              "runtime_parameter_bind": false,
+              "max_memory_mb": 19997,
+              "target_gpus": [
+                0
+              ],
+              "noise": "ideal",
+              "measure_sampling": true,
+              "batched_shots_optimization": false,
+              "fusion": {
+                "applied": true,
+                "time_taken": 0.003204759,
+                "cost_factor": 1.8,
+                "parallelization": 1,
+                "max_fused_qubits": 5,
+                "method": "unitary",
+                "threshold": 14,
+                "enabled": true
+              }
+            }
+          },
+          "nodes": [
+            {
+              "identity": "verifier-1",
+              "pid": 97956
+            },
+            {
+              "identity": "verifier-2",
+              "pid": 97954
+            },
+            {
+              "identity": "verifier-3",
+              "pid": 97957
+            }
+          ],
+          "counts_total": 1024,
+          "intent_nonce": "78dd797d17406a3b4bd9cf2a624e9b40",
+          "receipt_id": "af6a7289fd2a35666d3d31153e2dfcfd"
+        },
+        {
+          "request_ms": 2.57189,
+          "authorization_ms": 117.031209,
+          "protected_execute_ms": 141.708027,
+          "provenance_verify_ms": 31.713618,
+          "total_ms": 293.024744,
+          "adapter": {
+            "circuit_build_ms": 1.17873,
+            "execution_ms": 119.408716,
+            "total_ms": 120.587446,
+            "metadata": {
+              "time_taken": 0.113226617,
+              "num_bind_params": 1,
+              "parallel_state_update": 8,
+              "parallel_shots": 1,
+              "sample_measure_time": 0.101410454,
+              "required_memory_mb": 256,
+              "input_qubit_map": [],
+              "max_gpu_memory_mb": 32606,
+              "method": "statevector",
+              "device": "GPU",
+              "num_qubits": 24,
+              "active_input_qubits": [
+                0,
+                1,
+                2,
+                3,
+                4,
+                5,
+                6,
+                7,
+                8,
+                9,
+                10,
+                11,
+                12,
+                13,
+                14,
+                15,
+                16,
+                17,
+                18,
+                19,
+                20,
+                21,
+                22,
+                23
+              ],
+              "num_clbits": 24,
+              "remapped_qubits": false,
+              "cuStateVec_enable": false,
+              "runtime_parameter_bind": false,
+              "max_memory_mb": 19997,
+              "target_gpus": [
+                0
+              ],
+              "noise": "ideal",
+              "measure_sampling": true,
+              "batched_shots_optimization": false,
+              "fusion": {
+                "applied": true,
+                "time_taken": 0.003161738,
+                "cost_factor": 1.8,
+                "parallelization": 1,
+                "max_fused_qubits": 5,
+                "method": "unitary",
+                "threshold": 14,
+                "enabled": true
+              }
+            }
+          },
+          "nodes": [
+            {
+              "identity": "verifier-1",
+              "pid": 97962
+            },
+            {
+              "identity": "verifier-2",
+              "pid": 97960
+            },
+            {
+              "identity": "verifier-3",
+              "pid": 97963
+            }
+          ],
+          "counts_total": 1024,
+          "intent_nonce": "2752afb15b929f24041157df287152c6",
+          "receipt_id": "a4ba617558cde513bc7afc5def34b465"
+        },
+        {
+          "request_ms": 2.106058,
+          "authorization_ms": 121.721536,
+          "protected_execute_ms": 137.247565,
+          "provenance_verify_ms": 13.390089,
+          "total_ms": 274.465248,
+          "adapter": {
+            "circuit_build_ms": 1.214509,
+            "execution_ms": 119.255545,
+            "total_ms": 120.470054,
+            "metadata": {
+              "time_taken": 0.113232526,
+              "num_bind_params": 1,
+              "parallel_state_update": 8,
+              "parallel_shots": 1,
+              "sample_measure_time": 0.102216054,
+              "required_memory_mb": 256,
+              "input_qubit_map": [],
+              "max_gpu_memory_mb": 32606,
+              "method": "statevector",
+              "device": "GPU",
+              "num_qubits": 24,
+              "active_input_qubits": [
+                0,
+                1,
+                2,
+                3,
+                4,
+                5,
+                6,
+                7,
+                8,
+                9,
+                10,
+                11,
+                12,
+                13,
+                14,
+                15,
+                16,
+                17,
+                18,
+                19,
+                20,
+                21,
+                22,
+                23
+              ],
+              "num_clbits": 24,
+              "remapped_qubits": false,
+              "cuStateVec_enable": false,
+              "runtime_parameter_bind": false,
+              "max_memory_mb": 19997,
+              "target_gpus": [
+                0
+              ],
+              "noise": "ideal",
+              "measure_sampling": true,
+              "batched_shots_optimization": false,
+              "fusion": {
+                "applied": true,
+                "time_taken": 0.003295252,
+                "cost_factor": 1.8,
+                "parallelization": 1,
+                "max_fused_qubits": 5,
+                "method": "unitary",
+                "threshold": 14,
+                "enabled": true
+              }
+            }
+          },
+          "nodes": [
+            {
+              "identity": "verifier-1",
+              "pid": 97977
+            },
+            {
+              "identity": "verifier-2",
+              "pid": 97980
+            },
+            {
+              "identity": "verifier-3",
+              "pid": 97981
+            }
+          ],
+          "counts_total": 1024,
+          "intent_nonce": "69564a5c8066c2d3daa9b3931f7d2f57",
+          "receipt_id": "ce8ba938a45fb22766db54595781a073"
+        }
+      ],
+      "first_run": {
+        "request_ms": 2.338594,
+        "authorization_ms": 111.502166,
+        "protected_execute_ms": 155.131585,
+        "provenance_verify_ms": 13.001488,
+        "total_ms": 281.973833,
+        "adapter": {
+          "circuit_build_ms": 1.260567,
+          "execution_ms": 133.653245,
+          "total_ms": 134.913812,
+          "metadata": {
+            "time_taken": 0.127494505,
+            "num_bind_params": 1,
+            "parallel_state_update": 8,
+            "parallel_shots": 1,
+            "sample_measure_time": 0.102022286,
+            "required_memory_mb": 256,
+            "input_qubit_map": [],
+            "max_gpu_memory_mb": 32606,
+            "method": "statevector",
+            "device": "GPU",
+            "num_qubits": 24,
+            "active_input_qubits": [
+              0,
+              1,
+              2,
+              3,
+              4,
+              5,
+              6,
+              7,
+              8,
+              9,
+              10,
+              11,
+              12,
+              13,
+              14,
+              15,
+              16,
+              17,
+              18,
+              19,
+              20,
+              21,
+              22,
+              23
+            ],
+            "num_clbits": 24,
+            "remapped_qubits": false,
+            "cuStateVec_enable": false,
+            "runtime_parameter_bind": false,
+            "max_memory_mb": 19997,
+            "target_gpus": [
+              0
+            ],
+            "noise": "ideal",
+            "measure_sampling": true,
+            "batched_shots_optimization": false,
+            "fusion": {
+              "applied": true,
+              "time_taken": 0.003179224,
+              "cost_factor": 1.8,
+              "parallelization": 1,
+              "max_fused_qubits": 5,
+              "method": "unitary",
+              "threshold": 14,
+              "enabled": true
+            }
+          }
+        },
+        "nodes": [
+          {
+            "identity": "verifier-1",
+            "pid": 97871
+          },
+          {
+            "identity": "verifier-2",
+            "pid": 97872
+          },
+          {
+            "identity": "verifier-3",
+            "pid": 97873
+          }
+        ],
+        "counts_total": 1024,
+        "intent_nonce": "88137441eecc9b6fc5876da7d932cec9",
+        "receipt_id": "84b7db3cbffebfbfd67ac96b26d28ba3"
+      },
+      "summary_ms": {
+        "request_ms": {
+          "median": 2.188852,
+          "p05": 2.0393291,
+          "p95": 2.5084465999999996,
+          "min": 2.010731,
+          "max": 2.57189,
+          "mean": 2.2264204285714286,
+          "stdev": 0.18751856619621884
+        },
+        "authorization_ms": {
+          "median": 113.635386,
+          "p05": 111.7939394,
+          "p95": 120.3144379,
+          "min": 111.40103,
+          "max": 121.721536,
+          "mean": 115.15289671428572,
+          "stdev": 3.5780872767323935
+        },
+        "protected_execute_ms": {
+          "median": 141.708027,
+          "p05": 136.7630971,
+          "p95": 159.9326586,
+          "min": 136.555468,
+          "max": 166.118916,
+          "mean": 144.28432614285717,
+          "stdev": 10.121187904371862
+        },
+        "provenance_verify_ms": {
+          "median": 13.277958,
+          "p05": 12.925397799999999,
+          "p95": 26.278157399999987,
+          "min": 12.846172,
+          "max": 31.713618,
+          "mean": 15.878016428571428,
+          "stdev": 6.986697113559689
+        },
+        "total_ms": {
+          "median": 274.465248,
+          "p05": 265.7648484,
+          "p95": 293.7068142,
+          "min": 263.594868,
+          "max": 293.99913,
+          "mean": 277.5416597142857,
+          "stdev": 11.522828951769183
+        }
+      }
+    }
+  },
+  "cpu_over_gpu_median_ratio": 5.179285145782829
+}

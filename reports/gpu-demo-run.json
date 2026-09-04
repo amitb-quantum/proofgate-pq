@@ -1,0 +1,93 @@
+{
+  "device": "GPU",
+  "qubits": 24,
+  "layers": 8,
+  "gates": 568,
+  "shots": 1024,
+  "nodes": [
+    {
+      "identity": "verifier-1",
+      "pid": 98751
+    },
+    {
+      "identity": "verifier-2",
+      "pid": 98753
+    },
+    {
+      "identity": "verifier-3",
+      "pid": 98754
+    }
+  ],
+  "disposition": "ALLOW",
+  "mutation": "SIGNATURE_INVALID",
+  "replay": "REPLAY",
+  "result_attestation": "VALID",
+  "observed_outcomes": 1024,
+  "total_counts": 1024,
+  "protected_execution_ms": 270.210931,
+  "adapter": {
+    "circuit_build_ms": 1.467402,
+    "execution_ms": 248.553157,
+    "total_ms": 250.020559,
+    "metadata": {
+      "time_taken": 0.124087473,
+      "num_bind_params": 1,
+      "parallel_state_update": 8,
+      "parallel_shots": 1,
+      "sample_measure_time": 0.098679772,
+      "required_memory_mb": 256,
+      "input_qubit_map": [],
+      "max_gpu_memory_mb": 32606,
+      "method": "statevector",
+      "device": "GPU",
+      "num_qubits": 24,
+      "active_input_qubits": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12,
+        13,
+        14,
+        15,
+        16,
+        17,
+        18,
+        19,
+        20,
+        21,
+        22,
+        23
+      ],
+      "num_clbits": 24,
+      "remapped_qubits": false,
+      "cuStateVec_enable": false,
+      "runtime_parameter_bind": false,
+      "max_memory_mb": 19997,
+      "target_gpus": [
+        0
+      ],
+      "noise": "ideal",
+      "measure_sampling": true,
+      "batched_shots_optimization": false,
+      "fusion": {
+        "applied": true,
+        "time_taken": 0.003142157,
+        "cost_factor": 1.8,
+        "parallelization": 1,
+        "max_fused_qubits": 5,
+        "method": "unitary",
+        "threshold": 14,
+        "enabled": true
+      }
+    }
+  }
+}

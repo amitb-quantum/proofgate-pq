@@ -19,6 +19,8 @@ from .local import (
     sign_intent,
 )
 from .models import (
+    AerExperiment,
+    AerPolicy,
     Experiment,
     Intent,
     Receipt,
@@ -53,6 +55,15 @@ def main() -> int:
         "verify-result",
     ]:
         sub.add_parser(name)
+    gpu_demo = sub.add_parser("gpu-demo")
+    gpu_demo.add_argument("--device", choices=["CPU", "GPU"], default="GPU")
+    gpu_demo.add_argument("--qubits", type=int, default=24)
+    gpu_demo.add_argument("--layers", type=int, default=8)
+    for command_name in ["gpu-benchmark", "gateway-benchmark"]:
+        gpu_bench = sub.add_parser(command_name)
+        gpu_bench.add_argument("--trials", type=int, default=7)
+        gpu_bench.add_argument("--warmups", type=int, default=2)
+        gpu_bench.add_argument("--output", type=Path)
     attacks = sub.add_parser("attacks")
     attacks.add_argument("--output", type=Path, default=Path("reports/attacks.json"))
     bench = sub.add_parser("benchmark")
@@ -71,6 +82,23 @@ def main() -> int:
             from .demo import quantum_demo
 
             result = quantum_demo(root, args.suite, args.quorum)
+        elif args.command == "gpu-demo":
+            from .accelerated import accelerated_demo
+
+            result = accelerated_demo(root, args.qubits, args.layers, args.device)
+        elif args.command == "gpu-benchmark":
+            from .gpu_benchmark import benchmark_gpu
+
+            destination = args.output or Path("reports/gpu-benchmark.json")
+            benchmark_gpu(destination, args.trials, args.warmups)
+            result = {"status": "MEASURED", "report": str(destination)}
+        elif args.command == "gateway-benchmark":
+            from .gateway_benchmark import benchmark_gateway
+
+            destination = args.output or Path("reports/gateway-gpu-benchmark.json")
+            destination.parent.mkdir(parents=True, exist_ok=True)
+            benchmark_gateway(destination, args.trials, args.warmups)
+            result = {"status": "MEASURED", "report": str(destination)}
         elif args.command == "attacks":
             from .attacks import run_corpus
 
@@ -85,6 +113,8 @@ def main() -> int:
         elif args.command == "schemas":
             args.output.mkdir(parents=True, exist_ok=True)
             schema_models: list[type[BaseModel]] = [
+                AerExperiment,
+                AerPolicy,
                 Experiment,
                 Intent,
                 SignedIntent,
@@ -101,7 +131,14 @@ def main() -> int:
             if args.command == "freeze":
                 write(
                     root / "intent.json",
-                    freeze(parse(Experiment, read(root / "experiment.json")), trust),
+                    freeze(
+                        (
+                            parse(AerExperiment, read(root / "experiment.json"))
+                            if isinstance(trust.policy, AerPolicy)
+                            else parse(Experiment, read(root / "experiment.json"))
+                        ),
+                        trust,
+                    ),
                 )
             elif args.command == "sign-intent":
                 write(

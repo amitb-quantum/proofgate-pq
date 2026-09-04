@@ -10,7 +10,7 @@ predicate evidence, policy changes and mutable-input snapshot protection.
 
 These finite executions are evidence for tested behavior, not a formal security proof.
 Machine-readable tests and benchmark samples are in reports/. CI configuration is supplied;
-only the local Windows run is substantiated in this delivery. Remote CI was not triggered.
+the original Windows baseline and current WSL/GPU runs are substantiated. Remote CI was not triggered.
 
 ## Deliberate scope
 
@@ -62,6 +62,13 @@ each generated test mutates a fresh document copy; large input rejection remains
 
 No production readiness, independent security audit, FIPS module validation, cross-provider
 interoperability/conformance testing, resistance to side channels, formal composition proof,
-honest execution on a compromised host, paid hardware quantum run, Linux local test run,
+honest execution on a compromised host, paid hardware quantum run,
 or deployed CI result is claimed. The primitive implementation is supplied by PyCA/OpenSSL;
 the protocol and its tests do not replace provider conformance or external review.
+
+## WSL GPU and adversarial continuation
+
+See gpu-results.md and redteam-analysis.md for the version-2 Aer CPU/GPU extension,
+measured crossover, actual rollback/false-provenance reproductions and narrower claims.
+The real-valued built-in simulator limitation above applies to v1; Aer v2 also supports
+complex T gates and up to 26 qubits. A policy-file edit is not automatic live revocation.

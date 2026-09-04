@@ -33,6 +33,7 @@ ignore = ["UP047"]
 # Benchmark callbacks are invoked synchronously by _measure, never retained.
 "src/proofgate/benchmark.py" = ["B023"]
 "src/proofgate/gpu_benchmark.py" = ["B023"]
+"src/proofgate/gateway_benchmark.py" = ["B023"]
 
 [tool.mypy]
 python_version = "3.12"

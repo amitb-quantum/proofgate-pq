@@ -1,6 +1,6 @@
 {
   "$defs": {
-    "Gate": {
+    "AerGate": {
       "additionalProperties": false,
       "properties": {
         "op": {
@@ -8,7 +8,8 @@
             "H",
             "X",
             "Z",
-            "CX"
+            "CX",
+            "T"
           ],
           "title": "Op",
           "type": "string"
@@ -27,33 +28,36 @@
         "op",
         "qubits"
       ],
-      "title": "Gate",
+      "title": "AerGate",
       "type": "object"
     }
   },
   "additionalProperties": false,
   "properties": {
     "schema_version": {
-      "const": 1,
+      "const": 2,
       "title": "Schema Version",
       "type": "integer"
     },
     "backend": {
-      "const": "builtin-statevector-v1",
+      "enum": [
+        "aer-statevector-cpu-v1",
+        "aer-statevector-gpu-v1"
+      ],
       "title": "Backend",
       "type": "string"
     },
     "qubits": {
-      "maximum": 8,
+      "maximum": 26,
       "minimum": 1,
       "title": "Qubits",
       "type": "integer"
     },
     "gates": {
       "items": {
-        "$ref": "#/$defs/Gate"
+        "$ref": "#/$defs/AerGate"
       },
-      "maxItems": 256,
+      "maxItems": 2048,
       "minItems": 1,
       "title": "Gates",
       "type": "array"
@@ -79,6 +83,6 @@
     "shots",
     "seed"
   ],
-  "title": "Experiment",
+  "title": "AerExperiment",
   "type": "object"
 }

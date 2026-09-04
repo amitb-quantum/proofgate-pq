@@ -1,5 +1,91 @@
 {
   "$defs": {
+    "AerExperiment": {
+      "additionalProperties": false,
+      "properties": {
+        "schema_version": {
+          "const": 2,
+          "title": "Schema Version",
+          "type": "integer"
+        },
+        "backend": {
+          "enum": [
+            "aer-statevector-cpu-v1",
+            "aer-statevector-gpu-v1"
+          ],
+          "title": "Backend",
+          "type": "string"
+        },
+        "qubits": {
+          "maximum": 26,
+          "minimum": 1,
+          "title": "Qubits",
+          "type": "integer"
+        },
+        "gates": {
+          "items": {
+            "$ref": "#/$defs/AerGate"
+          },
+          "maxItems": 2048,
+          "minItems": 1,
+          "title": "Gates",
+          "type": "array"
+        },
+        "shots": {
+          "maximum": 4096,
+          "minimum": 1,
+          "title": "Shots",
+          "type": "integer"
+        },
+        "seed": {
+          "maximum": 4294967295,
+          "minimum": 0,
+          "title": "Seed",
+          "type": "integer"
+        }
+      },
+      "required": [
+        "schema_version",
+        "backend",
+        "qubits",
+        "gates",
+        "shots",
+        "seed"
+      ],
+      "title": "AerExperiment",
+      "type": "object"
+    },
+    "AerGate": {
+      "additionalProperties": false,
+      "properties": {
+        "op": {
+          "enum": [
+            "H",
+            "X",
+            "Z",
+            "CX",
+            "T"
+          ],
+          "title": "Op",
+          "type": "string"
+        },
+        "qubits": {
+          "items": {
+            "type": "integer"
+          },
+          "maxItems": 2,
+          "minItems": 1,
+          "title": "Qubits",
+          "type": "array"
+        }
+      },
+      "required": [
+        "op",
+        "qubits"
+      ],
+      "title": "AerGate",
+      "type": "object"
+    },
     "Context": {
       "additionalProperties": false,
       "properties": {
@@ -111,7 +197,22 @@
       "additionalProperties": false,
       "properties": {
         "experiment": {
-          "$ref": "#/$defs/Experiment"
+          "discriminator": {
+            "mapping": {
+              "1": "#/$defs/Experiment",
+              "2": "#/$defs/AerExperiment"
+            },
+            "propertyName": "schema_version"
+          },
+          "oneOf": [
+            {
+              "$ref": "#/$defs/Experiment"
+            },
+            {
+              "$ref": "#/$defs/AerExperiment"
+            }
+          ],
+          "title": "Experiment"
         },
         "frozen_digest": {
           "pattern": "^[0-9a-f]{96}$",

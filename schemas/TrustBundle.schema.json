@@ -1,13 +1,146 @@
 {
   "$defs": {
-    "Policy": {
+    "AerPolicy": {
       "additionalProperties": false,
       "properties": {
+        "reference": {
+          "$ref": "#/$defs/PolicyRef"
+        },
+        "suite": {
+          "enum": [
+            "ed25519-v1",
+            "mldsa65-v1",
+            "ed25519-mldsa65-v1"
+          ],
+          "title": "Suite",
+          "type": "string"
+        },
+        "audience": {
+          "maxLength": 96,
+          "minLength": 1,
+          "pattern": "^[a-zA-Z0-9_.:-]+$",
+          "title": "Audience",
+          "type": "string"
+        },
+        "target": {
+          "maxLength": 96,
+          "minLength": 1,
+          "pattern": "^[a-zA-Z0-9_.:-]+$",
+          "title": "Target",
+          "type": "string"
+        },
+        "environment": {
+          "maxLength": 96,
+          "minLength": 1,
+          "pattern": "^[a-zA-Z0-9_.:-]+$",
+          "title": "Environment",
+          "type": "string"
+        },
+        "project": {
+          "maxLength": 96,
+          "minLength": 1,
+          "pattern": "^[a-zA-Z0-9_.:-]+$",
+          "title": "Project",
+          "type": "string"
+        },
+        "subjects": {
+          "items": {
+            "maxLength": 96,
+            "minLength": 1,
+            "pattern": "^[a-zA-Z0-9_.:-]+$",
+            "type": "string"
+          },
+          "maxItems": 32,
+          "minItems": 1,
+          "title": "Subjects",
+          "type": "array"
+        },
+        "verifier_ids": {
+          "items": {
+            "maxLength": 96,
+            "minLength": 1,
+            "pattern": "^[a-zA-Z0-9_.:-]+$",
+            "type": "string"
+          },
+          "maxItems": 16,
+          "minItems": 1,
+          "title": "Verifier Ids",
+          "type": "array"
+        },
+        "quorum": {
+          "maximum": 16,
+          "minimum": 1,
+          "title": "Quorum",
+          "type": "integer"
+        },
+        "max_qubits": {
+          "maximum": 26,
+          "minimum": 1,
+          "title": "Max Qubits",
+          "type": "integer"
+        },
+        "max_shots": {
+          "maximum": 4096,
+          "minimum": 1,
+          "title": "Max Shots",
+          "type": "integer"
+        },
+        "human_above_shots": {
+          "maximum": 4096,
+          "minimum": 1,
+          "title": "Human Above Shots",
+          "type": "integer"
+        },
+        "max_intent_ttl": {
+          "maximum": 3600,
+          "minimum": 1,
+          "title": "Max Intent Ttl",
+          "type": "integer"
+        },
+        "receipt_ttl": {
+          "maximum": 600,
+          "minimum": 1,
+          "title": "Receipt Ttl",
+          "type": "integer"
+        },
         "schema_version": {
-          "const": 1,
+          "const": 2,
           "title": "Schema Version",
           "type": "integer"
         },
+        "backend": {
+          "enum": [
+            "aer-statevector-cpu-v1",
+            "aer-statevector-gpu-v1"
+          ],
+          "title": "Backend",
+          "type": "string"
+        }
+      },
+      "required": [
+        "reference",
+        "suite",
+        "audience",
+        "target",
+        "environment",
+        "project",
+        "subjects",
+        "verifier_ids",
+        "quorum",
+        "max_qubits",
+        "max_shots",
+        "human_above_shots",
+        "max_intent_ttl",
+        "receipt_ttl",
+        "schema_version",
+        "backend"
+      ],
+      "title": "AerPolicy",
+      "type": "object"
+    },
+    "Policy": {
+      "additionalProperties": false,
+      "properties": {
         "reference": {
           "$ref": "#/$defs/PolicyRef"
         },
@@ -107,10 +240,14 @@
           "minimum": 1,
           "title": "Receipt Ttl",
           "type": "integer"
+        },
+        "schema_version": {
+          "const": 1,
+          "title": "Schema Version",
+          "type": "integer"
         }
       },
       "required": [
-        "schema_version",
         "reference",
         "suite",
         "audience",
@@ -124,7 +261,8 @@
         "max_shots",
         "human_above_shots",
         "max_intent_ttl",
-        "receipt_ttl"
+        "receipt_ttl",
+        "schema_version"
       ],
       "title": "Policy",
       "type": "object"
@@ -161,7 +299,22 @@
       "type": "integer"
     },
     "policy": {
-      "$ref": "#/$defs/Policy"
+      "discriminator": {
+        "mapping": {
+          "1": "#/$defs/Policy",
+          "2": "#/$defs/AerPolicy"
+        },
+        "propertyName": "schema_version"
+      },
+      "oneOf": [
+        {
+          "$ref": "#/$defs/Policy"
+        },
+        {
+          "$ref": "#/$defs/AerPolicy"
+        }
+      ],
+      "title": "Policy"
     },
     "verifiers": {
       "additionalProperties": {

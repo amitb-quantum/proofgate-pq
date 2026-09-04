@@ -1,0 +1,27 @@
+{
+  "timestamp": "2026-09-04T23:53:02Z",
+  "baseline_commit": "702d66bcbfd65fa0bb584b5a882eadf613cb7a2c",
+  "tests": 212,
+  "failures": 0,
+  "errors": 0,
+  "skipped": 0,
+  "test_seconds": 3.481,
+  "gpu_integration_enabled": true,
+  "ruff_check": "PASS",
+  "ruff_format": "PASS",
+  "mypy": "PASS",
+  "pip_check": "PASS",
+  "upstream_deprecation_warnings": 888,
+  "redteam_classifications": {
+    "CONFIRMED EXPLOITABLE": 0,
+    "CONFIRMED FAIL-CLOSED": 11,
+    "DESIGN LIMITATION": 2,
+    "ASSUMPTION VIOLATION": 4,
+    "NOT REPRODUCED": 1
+  },
+  "signed_stress_attempts": 2000,
+  "gpu_driver_unchanged": true,
+  "gpu_lock_method": "recorded installed Linux-wheel hashes plus existing core lock; full version coverage",
+  "gpu_clean_reinstall": "NOT_PERFORMED",
+  "remote_ci": "NOT_RUN"
+}

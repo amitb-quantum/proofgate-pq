@@ -1,5 +1,7 @@
 # ProofGate-PQ
 
+[![verify](https://github.com/amitb-quantum/proofgate-pq/actions/workflows/ci.yml/badge.svg?branch=main)](https://github.com/amitb-quantum/proofgate-pq/actions/workflows/ci.yml)
+
 **Verify the exact action before it executes — then make the authorization independently checkable.**
 
 **Intent -> Independent Verification -> Cryptographic Receipt -> Execution -> Signed Provenance**
@@ -324,4 +326,4 @@ ProofGate-PQ/
 
 Read the [threat model](docs/architecture.md), [security notes](SECURITY.md) and [limitations and unsupported claims](docs/limitations.md). Required further work includes independent protocol review, provider conformance/interoperability checks, secure key custody and rotation, authenticated transport, independently operated verifiers, protected clocks, rollback-resistant shared replay storage, backend credential isolation/idempotency, policy governance, fuzzing, resource limits and audit/incident operations.
 
-The repository is public and GitHub Actions is configured. The first public CI run did not complete successfully across the full matrix, so do not treat the current repository as having a green external CI signal yet. The Aer extension also requires its optional GPU dependency lock. Running executors do not watch policy files for changes; replace their loaded trust configuration explicitly.
+The repository is public. GitHub Actions has passed on both Ubuntu and Windows; the badge above tracks the current main-branch workflow. CI runs the CPU test suite, lint, formatting, type checks, attack corpus and three-verifier demonstration; GPU integration tests require a separate explicit opt-in. The Aer extension also requires its optional GPU dependency lock. Running executors do not watch policy files for changes; replace their loaded trust configuration explicitly.

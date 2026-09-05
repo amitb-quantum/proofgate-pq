@@ -71,8 +71,10 @@ def material(
     return trust, request, issue(root, trust, request)
 
 
-def issue(root: Path, trust: TrustBundle, request: SignedIntent) -> Receipt:
-    now = int(time.time())
+def issue(
+    root: Path, trust: TrustBundle, request: SignedIntent, *, now: int | None = None
+) -> Receipt:
+    now = int(time.time()) if now is None else now
     header = new_header(request, trust, now)
     votes = [
         attest(request, header, trust, load_key(root, i), now) for i in trust.policy.verifier_ids
@@ -125,7 +127,7 @@ def exercise(
             executor = ProtectedExecutor(trust, load_key(root, "executor"), ReplayStore(database))
             executor.execute(canonical(request), canonical(receipt))
             if name == "reissued_intent_replay":
-                r = issue(root, trust, request).model_dump()
+                r = issue(root, trust, request, now=now).model_dump()
             executor.execute(canonical(q), canonical(r))
         elif name in {"insufficient_quorum", "malicious_only_no_quorum"}:
             r["attestations"] = r["attestations"][:1]
@@ -163,7 +165,7 @@ def exercise(
 
             if name == "human_verify_not_approval":
                 spec = bell_experiment().model_copy(update={"shots": 3000})
-                changed = freeze(spec, trust)
+                changed = freeze(spec, trust, now=now)
             else:
                 raw = request.intent.model_dump()
                 if name == "deny_not_approval":
@@ -172,7 +174,9 @@ def exercise(
                     raw["parameters"]["experiment"]["shots"] += 1
                 changed = parse(Intent, canonical(raw))
             new_request = sign_intent(changed, load_key(root, "scientist"))
-            q, r = new_request.model_dump(), issue(root, trust, new_request).model_dump()
+            # Use the same test instant as verification: a wall-clock tick during
+            # signing must not mask the intended denial with RECEIPT_FUTURE.
+            q, r = new_request.model_dump(), issue(root, trust, new_request, now=now).model_dump()
         elif name == "unknown_not_approval":
             r["attestations"], r["disposition"] = [], "UNKNOWN"
         elif name == "error_not_approval":
